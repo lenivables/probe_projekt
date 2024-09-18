@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vokabeltrainer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: auto;
+        }
+
+        /* Menüleiste */
+        .menu {
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        .menu a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+
+        .menu a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        /* Info-Button Stil */
+        .info-button {
+            float: right;
+            background-color: white;
+            color: #333;
+            text-align: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            margin: 10px 10px;
+            line-height: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .info-button:hover {
+            background-color: #ddd;
+        }
+
+        /* Dropdown-Menü */
+        .dropdown {
+            float: left;
+            overflow: hidden;
+        }
+
+        .dropdown .dropbtn {
+            display: block;
+            color: white;
+            background-color: #333;
+            padding: 14px 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            float: none;
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Modal Stil */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 60px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Hauptinhalt */
+        .content {
+            padding: 20px;
+        }
+
+        /* Eingabefelder für neue Vokabel */
+        .vocab-form {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .vocab-form input {
+            display: block;
+            margin-bottom: 10px;
+            padding: 8px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .vocab-form button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .vocab-form button:hover {
+            background-color: #218838;
+        }
+
+        /* Erfolg- und Fehlermeldungen */
+        .success {
+            color: green;
+            margin-top: 10px;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+
+        /* Zurück-Button */
+        .back-button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Reset-Optionen */
+        .reset-options {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .reset-options button {
+            padding: 10px 20px;
+            margin-right: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .reset-options .cancel {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .reset-options .cancel:hover {
+            background-color: #c82333;
+        }
+
+        .reset-options .confirm {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .reset-options .confirm:hover {
+            background-color: #0056b3;
+        }
+
+        /* Begrüßungstext */
+        #welcomeText {
+            margin-top: 20px;
+        }
+
+        /* CSV Datei Bearbeitung */
+        #fileDetails, #fileContent {
+            margin-top: 10px;
+            color: green;
+        }
+
+        #fileContent {
+            white-space: pre-wrap;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+
+        #vocabOutput {
+            margin-top: 10px;
+            color: blue;
+            white-space: pre-wrap;
+        }
+
+        /* Meldungen */
+        .message {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Menüleiste -->
+    <div class="menu">
+        <a href="#" id="startQuery">Abfrage starten</a>
+        <div class="dropdown">
+            <button class="dropbtn">Neue Vokabel</button>
+            <div class="dropdown-content">
+                <a href="#" id="singleVocab">Einzelne Vokabel</a>
+                <a href="#" id="vocabSheet">Vokabel-Sheet eingeben</a>
+            </div>
+        </div>
+        <a href="#" id="download">Download</a>
+        <a href="#" id="reset">Reset</a>
+
+        <!-- Info-Button -->
+        <div class="info-button" id="infoButton">i</div>
+    </div>
+
+    <!-- Info Modal -->
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <p>Ich bin eine Karteikarten Applikation für Chinesisch-deutsche Vokabeln.</p>
+        </div>
+    </div>
+
+    <!-- Hauptinhalt -->
+    <div class="content">
+        <!-- Begrüßungstext -->
+        <div id="welcomeText">
+            <h1>Willkommen zum Vokabeltrainer</h1>
+            <p>Scrollen Sie, um den Rest des Inhalts zu sehen.</p>
+        </div>
+
+        <!-- Formular für Einzelne Vokabel -->
+        <div class="vocab-form" id="vocabForm">
+            <h2>Werte eingeben</h2>
+            <label for="field1">Wert 1:</label>
+            <input type="text" id="field1"><br><br>
+            <label for="field2">Wert 2:</label>
+            <input type="text" id="field2"><br><br>
+            
+            <button id="addBtn">Abgeben</button>
+            <button id="showBtn">Abrufen</button>
+
+            <!-- Erfolgs- oder Fehlermeldung anzeigen -->
+            <div id="vocabMessage"></div>
+
+            <!-- Bereich zum Anzeigen des Zwischenspeichers -->
+            <div id="vocabOutput"></div>
+
+            <!-- Zurück-Button -->
+            <button class="back-button" id="backToStart">← Zurück zur Startseite</button>
+        </div>
+
+        <!-- Formular für Vokabel-Sheet (CSV-Datei hochladen) -->
+        <div class="vocab-form" id="vocabSheetForm" style="display: none;">
+            <h1>CSV Datei Bearbeitung</h1>
+    
+            <input type="file" id="fileInput" accept=".csv">
+            <button id="submitBtn">Fertig</button>
+            <div id="fileDetails"></div>
+            
+            <!-- Erfolgsnachricht anzeigen -->
+            <div id="csvMessage"></div>
+
+            <!-- Button zum Anzeigen der CSV-Datei -->
+            <button id="printCsvBtn">Abgegebene CSV-Datei ausgeben</button>
+            <div id="csvOutput"></div>
+
+            <!-- Zurück-Button -->
+            <button class="back-button" id="backToStartFromSheet">← Zurück zur Startseite</button>
+        </div>
+
+        <!-- Reset-Optionen -->
+        <div class="reset-options" id="resetOptions">
+            <h2>Möchten Sie die Datei wirklich zurücksetzen?</h2>
+            <button class="back-button" id="backToStartReset">Abbrechen</button>
+            <button class="confirm" id="confirmReset">Durchführen</button>
+            <div id="resetMessage" class="message success"></div>
+        </div>
+
+        <!-- Bereich für Download -->
+        <div class="vocab-form" id="downloadForm" style="display: none;">
+            <h1>Download</h1>
+            <button id="saveBtn">Ende</button>
+            <div id="downloadMessage" class="message error"></div>
+
+            <!-- Zurück-Button -->
+            <button class="back-button" id="backToStartFromDownload">← Zurück zur Startseite</button>
+        </div>
+
+        <!-- Bereich für Abfrage starten -->
+        <div class="startQuery" id="startQuerySection" style="display: none;">
+            <h1>Abfrage starten</h1>
+            <button id="dcBtn">dc</button>
+            <button id="cdBtn">cd</button>
+            <!-- Neuer Button zum Aufdecken -->
+            <button id="revealBtn" style="display: none;">Aufdecken</button>
+            <!-- Zurück-Button -->
+            <button class="back-button" id="backToStartFromQuery">← Zurück zur Startseite</button>
+        </div>
+    </div>
+
+    <!-- JavaScript für Menü-Interaktionen -->
+    <script>
+        let csvData = [];
+        let currentPair = null; // Um das zufällig ausgewählte Paar zu speichern
+        const fileInput = document.getElementById('fileInput');
+        const fileDetails = document.getElementById('fileDetails');
+        const fileContent = document.getElementById('fileContent');
+        const field1 = document.getElementById('field1');
+        const field2 = document.getElementById('field2');
+        const submitBtn = document.getElementById('submitBtn');
+        const addBtn = document.getElementById('addBtn');
+        const showBtn = document.getElementById('showBtn');
+        const saveBtn = document.getElementById('saveBtn');
+        const printCsvBtn = document.getElementById('printCsvBtn');
+        const vocabMessage = document.getElementById('vocabMessage');
+        const csvMessage = document.getElementById('csvMessage');
+        const vocabOutput = document.getElementById('vocabOutput');
+        const csvOutput = document.getElementById('csvOutput');
+        const downloadMessage = document.getElementById('downloadMessage');
+        const resetMessage = document.getElementById('resetMessage');
+        const backToStart = document.getElementById('backToStart');
+        const backToStartFromSheet = document.getElementById('backToStartFromSheet');
+        const backToStartFromDownload = document.getElementById('backToStartFromDownload');
+        const confirmReset = document.getElementById('confirmReset');
+        const infoButton = document.getElementById('infoButton');
+        const infoModal = document.getElementById('infoModal');
+        const closeModal = document.getElementById('closeModal');
+        const revealBtn = document.getElementById('revealBtn'); // Aufdecken Button
+
+        // Funktion zum Ausblenden des Begrüßungstextes
+        function hideWelcomeText() {
+            document.getElementById("welcomeText").style.display = "none";
+        }
+
+        // Funktion zum Einblenden des Begrüßungstextes
+        function showWelcomeText() {
+            document.getElementById("welcomeText").style.display = "block";
+        }
+
+        // Info-Button: Zeige Info Modal
+        infoButton.addEventListener("click", function() {
+            infoModal.style.display = "block";
+        });
+
+        // Schließe das Modal
+        closeModal.addEventListener("click", function() {
+            infoModal.style.display = "none";
+        });
+
+        // Schließe Modal, wenn der Benutzer außerhalb klickt
+        window.addEventListener("click", function(event) {
+            if (event.target == infoModal) {
+                infoModal.style.display = "none";
+            }
+        });
+
+        // Zurück-Button entfernen, wenn "Reset" gedrückt wird
+        document.getElementById("reset").addEventListener("click", function() {
+            hideWelcomeText();
+            document.getElementById("resetOptions").style.display = "block";
+            document.getElementById("vocabForm").style.display = "none";
+            document.getElementById("vocabSheetForm").style.display = "none";
+            document.getElementById("downloadForm").style.display = "none";
+        });
+
+        // Zwischenspeicher leeren und Erfolgsmeldung anzeigen
+        confirmReset.addEventListener("click", function() {
+            csvData = [];  // Zwischenspeicher leeren
+            resetMessage.innerHTML = "Zwischenspeicher wurde erfolgreich geleert.";
+        });
+
+        // Event Listener für Menüpunkt "Einzelne Vokabel"
+        document.getElementById("singleVocab").addEventListener("click", function() {
+            hideWelcomeText();
+            document.getElementById("vocabForm").style.display = "block";
+            document.getElementById("vocabSheetForm").style.display = "none";
+            document.getElementById("resetOptions").style.display = "none";
+            document.getElementById("downloadForm").style.display = "none";
+        });
+
+        // Event Listener für Menüpunkt "Vokabel-Sheet eingeben"
+        document.getElementById("vocabSheet").addEventListener("click", function() {
+            hideWelcomeText();
+            document.getElementById("vocabForm").style.display = "none";
+            document.getElementById("vocabSheetForm").style.display = "block";
+            document.getElementById("resetOptions").style.display = "none";
+            document.getElementById("downloadForm").style.display = "none";
+        });
+
+        // Event Listener für Menüpunkt "Abfrage starten"
+        document.getElementById("startQuery").addEventListener("click", function() {
+            hideWelcomeText();
+            document.getElementById("vocabForm").style.display = "none";
+            document.getElementById("vocabSheetForm").style.display = "none";
+            document.getElementById("resetOptions").style.display = "none";
+            document.getElementById("downloadForm").style.display = "none";
+        });
+
+        // Event Listener für Menüpunkt "Download"
+        document.getElementById("download").addEventListener("click", function() {
+            hideWelcomeText();
+            document.getElementById("vocabForm").style.display = "none";
+            document.getElementById("vocabSheetForm").style.display = "none";
+            document.getElementById("resetOptions").style.display = "none";
+            document.getElementById("downloadForm").style.display = "block";  // Download-Formular anzeigen
+        });
+
+        // CSV Datei einlesen und zum Zwischenspeicher hinzufügen (nicht überschreiben)
+        submitBtn.addEventListener('click', function() {
+            if (fileInput.files.length > 0) {
+                const selectedFile = fileInput.files[0];
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const content = event.target.result;
+                    const newCsvData = content.split('\n').map(row => row.split(','));
+                    csvData = csvData.concat(newCsvData);  // Inhalt hinzufügen, nicht überschreiben
+                    fileDetails.textContent = 'Datei erfolgreich geladen: ' + selectedFile.name;
+                    csvMessage.innerHTML = '<p class="success">CSV erfolgreich abgegeben.</p>';  // Erfolgsnachricht anzeigen
+                    console.log('CSV angehängt:', csvData);
+                };
+                reader.readAsText(selectedFile);
+            } else {
+                fileDetails.textContent = 'Keine Datei ausgewählt.';
+            }
+        });
+
+        // Neue Werte in den Zwischenspeicher hinzufügen und Erfolg/Fehlermeldung anzeigen
+        addBtn.addEventListener('click', function() {
+            const newValue1 = field1.value.trim();
+            const newValue2 = field2.value.trim();
+            
+            if (newValue1 && newValue2) {
+                csvData.push([newValue1, newValue2]);
+                field1.value = '';
+                field2.value = '';
+                vocabMessage.innerHTML = '<p class="success">Vokabel abgegeben.</p>';  // Erfolgsnachricht
+            } else {
+                vocabMessage.innerHTML = '<p class="error">Bitte beide Felder ausfüllen.</p>';  // Fehlermeldung
+            }
+        });
+
+        // Inhalt des Zwischenspeichers abrufen und anzeigen
+        showBtn.addEventListener('click', function() {
+            if (csvData.length > 0) {
+                let content = 'Aktueller Inhalt des Zwischenspeichers:\n';
+                csvData.forEach(row => {
+                    content += row.join(', ') + '\n';
+                });
+                vocabOutput.textContent = content;
+            } else {
+                vocabOutput.textContent = 'Zwischenspeicher ist leer.';
+            }
+        });
+
+        // CSV-Datei unter dem Button anzeigen
+        printCsvBtn.addEventListener('click', function() {
+            if (csvData.length > 0) {
+                let content = 'Inhalt der hochgeladenen CSV-Datei:\n';
+                csvData.forEach(row => {
+                    content += row.join(', ') + '\n';
+                });
+                csvOutput.textContent = content;
+            } else {
+                csvOutput.textContent = 'Keine CSV-Datei hochgeladen oder CSV ist leer.';
+            }
+        });
+
+        // CSV Datei aus dem Zwischenspeicher erstellen und zum Download bereitstellen
+        saveBtn.addEventListener('click', function() {
+            if (csvData.length > 0) {
+                const csvContent = csvData.map(row => row.join(',')).join('\n');
+                const blob = new Blob([csvContent], { type: 'text/csv' });
+                const url = URL.createObjectURL(blob);
+
+                const downloadLink = document.createElement('a');
+                downloadLink.href = url;
+                downloadLink.download = 'csv_speicher.csv';
+
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+
+                downloadMessage.innerHTML = '';  // Leere Nachricht entfernen
+                fileDetails.textContent = 'CSV-Datei wurde erstellt und zum Download bereitgestellt.';
+            } else {
+                downloadMessage.innerHTML = '<p class="error">Zwischenspeicher leer, keine Vokabeln zum Downloaden gefunden.</p>';  // Fehlermeldung
+            }
+        });
+
+        // Zurück zur Startseite
+        backToStart.addEventListener('click', function() {
+            document.getElementById("vocabForm").style.display = "none";
+            showWelcomeText();
+        });
+
+        backToStartFromSheet.addEventListener('click', function() {
+            document.getElementById("vocabSheetForm").style.display = "none";
+            showWelcomeText();
+        });
+
+        backToStartFromDownload.addEventListener('click', function() {
+            document.getElementById("downloadForm").style.display = "none";
+            showWelcomeText();
+        });
+
+        // Event Listener für Menüpunkt "Abfrage starten"
+        document.getElementById("startQuery").addEventListener("click", function() {
+            hideWelcomeText();
+            document.getElementById("vocabForm").style.display = "none";
+            document.getElementById("vocabSheetForm").style.display = "none";
+            document.getElementById("resetOptions").style.display = "none";
+            document.getElementById("downloadForm").style.display = "none";
+            document.getElementById("startQuerySection").style.display = "block";  // Abfrage starten Bereich anzeigen
+        });
+
+        // Zurück zur Startseite von Abfrage starten
+        document.getElementById("backToStartFromQuery").addEventListener("click", function() {
+            document.getElementById("startQuerySection").style.display = "none";
+            showWelcomeText();
+        });
+
+        // Neue Funktion für "dc"-Button
+        document.getElementById("dcBtn").addEventListener("click", function() {
+            if (csvData.length > 0) {
+                // Wähle ein zufälliges Paar
+                const randomIndex = Math.floor(Math.random() * csvData.length);
+                const randomPair = csvData[randomIndex];
+                currentPair = randomPair; // Speichere das aktuelle Paar für späteres Aufdecken
+
+                // Extrahiere den Wert vor dem Komma
+                const valueBeforeComma = randomPair[0];
+
+                // Blende die Buttons "dc" und "cd" aus
+                document.getElementById("dcBtn").style.display = "none";
+                document.getElementById("cdBtn").style.display = "none";
+
+                // Zeige den Wert vor dem Komma an
+                const resultElement = document.createElement("p");
+                resultElement.innerText = `Der Wert vor dem Komma ist: ${valueBeforeComma}`;
+                document.body.appendChild(resultElement);
+
+                // Zeige den Aufdecken-Button an
+                revealBtn.style.display = "block";
+            } else {
+                alert("Zwischenspeicher ist leer.");
+            }
+        });
+
+        // Funktion für den Aufdecken-Button
+        revealBtn.addEventListener("click", function() {
+            if (currentPair) {
+                // Zeige den Wert nach dem Komma an
+                const valueAfterComma = currentPair[1];
+                const revealElement = document.createElement("p");
+                revealElement.innerText = `Der Wert nach dem Komma ist: ${valueAfterComma}`;
+                document.body.appendChild(revealElement);
+
+                // Blende den Aufdecken-Button wieder aus
+                revealBtn.style.display = "none";
+            }
+        });
+    </script>
+</body>
+</html>
