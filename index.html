@@ -318,7 +318,7 @@
             <div id="csvMessage"></div>
 
             <!-- Button zum Anzeigen der CSV-Datei -->
-            <button id="printCsvBtn">Inhalt Zwischenspeicher ausgeben</button>
+            <button id="printCsvBtn">Abgegebene CSV-Datei ausgeben</button>
             <div id="csvOutput"></div>
 
             <!-- Zurück-Button -->
@@ -328,7 +328,7 @@
         <!-- Reset-Optionen -->
         <div class="reset-options" id="resetOptions">
             <h2>Möchten Sie die Datei wirklich zurücksetzen?</h2>
-            <button class="back-button" id="backToStartReset">Abbrechen</button>
+            <button class="back-button cancel" id="backToStartReset">Abbrechen</button>
             <button class="confirm" id="confirmReset">Durchführen</button>
             <div id="resetMessage" class="message success"></div>
         </div>
@@ -350,6 +350,10 @@
             <button id="cdBtn">cd</button>
             <!-- Neuer Button zum Aufdecken -->
             <button id="revealBtn" style="display: none;">Aufdecken</button>
+            <!-- Button zum Weitergehen -->
+            <button id="nextBtn" style="display: none;">Weiter</button>
+            <!-- Zurück-Button nach Drücken von dc -->
+            <button id="backToDcCd" style="display: none;">Zurück zu dc und cd</button>
             <!-- Zurück-Button -->
             <button class="back-button" id="backToStartFromQuery">← Zurück zur Startseite</button>
         </div>
@@ -383,6 +387,8 @@
         const infoModal = document.getElementById('infoModal');
         const closeModal = document.getElementById('closeModal');
         const revealBtn = document.getElementById('revealBtn'); // Aufdecken Button
+        const nextBtn = document.getElementById('nextBtn'); // Weiter Button
+        const backToDcCd = document.getElementById('backToDcCd'); // Zurück zu dc und cd Button
 
         // Funktion zum Ausblenden des Begrüßungstextes
         function hideWelcomeText() {
@@ -420,6 +426,12 @@
             document.getElementById("downloadForm").style.display = "none";
         });
 
+        // Event Listener für den Abbrechen-Button im Reset-Formular
+        document.getElementById("backToStartReset").addEventListener("click", function() {
+            document.getElementById("resetOptions").style.display = "none";
+            showWelcomeText();
+        });
+
         // Zwischenspeicher leeren und Erfolgsmeldung anzeigen
         confirmReset.addEventListener("click", function() {
             csvData = [];  // Zwischenspeicher leeren
@@ -451,6 +463,11 @@
             document.getElementById("vocabSheetForm").style.display = "none";
             document.getElementById("resetOptions").style.display = "none";
             document.getElementById("downloadForm").style.display = "none";
+            
+            // Zeige den Bereich für Abfrage starten und die Buttons "dc" und "cd"
+            document.getElementById("startQuerySection").style.display = "block";
+            document.getElementById("dcBtn").style.display = "block"; // Zeige den "dc"-Button an
+            document.getElementById("cdBtn").style.display = "block"; // Zeige den "cd"-Button an
         });
 
         // Event Listener für Menüpunkt "Download"
@@ -560,50 +577,42 @@
             showWelcomeText();
         });
 
-        // Event Listener für Menüpunkt "Abfrage starten"
-        document.getElementById("startQuery").addEventListener("click", function() {
-            hideWelcomeText();
-            document.getElementById("vocabForm").style.display = "none";
-            document.getElementById("vocabSheetForm").style.display = "none";
-            document.getElementById("resetOptions").style.display = "none";
-            document.getElementById("downloadForm").style.display = "none";
-            document.getElementById("startQuerySection").style.display = "block";  // Abfrage starten Bereich anzeigen
-        });
-
-        // Zurück zur Startseite von Abfrage starten
-        document.getElementById("backToStartFromQuery").addEventListener("click", function() {
-            document.getElementById("startQuerySection").style.display = "none";
-            showWelcomeText();
-        });
-
-        // Neue Funktion für "dc"-Button
-        document.getElementById("dcBtn").addEventListener("click", function() {
+        // Funktion zum Anzeigen eines zufälligen Werts vor dem Komma
+        function showRandomPair() {
             if (csvData.length > 0) {
                 // Wähle ein zufälliges Paar
                 const randomIndex = Math.floor(Math.random() * csvData.length);
-                const randomPair = csvData[randomIndex];
-                currentPair = randomPair; // Speichere das aktuelle Paar für späteres Aufdecken
+                currentPair = csvData[randomIndex];
 
                 // Extrahiere den Wert vor dem Komma
-                const valueBeforeComma = randomPair[0];
-
-                // Blende die Buttons "dc" und "cd" aus
-                document.getElementById("dcBtn").style.display = "none";
-                document.getElementById("cdBtn").style.display = "none";
+                const valueBeforeComma = currentPair[0];
 
                 // Zeige den Wert vor dem Komma an
                 const resultElement = document.createElement("p");
                 resultElement.innerText = `Der Wert vor dem Komma ist: ${valueBeforeComma}`;
                 document.body.appendChild(resultElement);
 
-                // Zeige den Aufdecken-Button an
+                // Blende den Aufdecken- und Weiter-Button ein
                 revealBtn.style.display = "block";
+                nextBtn.style.display = "block";
+                // Zeige den Zurück-Button an
+                backToDcCd.style.display = "block";
             } else {
                 alert("Zwischenspeicher ist leer.");
             }
+        }
+
+        // Event Listener für "dc"-Button
+        document.getElementById("dcBtn").addEventListener("click", function() {
+            // Blende die Buttons "dc" und "cd" aus
+            document.getElementById("dcBtn").style.display = "none";
+            document.getElementById("cdBtn").style.display = "none";
+
+            // Zeige einen zufälligen Wert an
+            showRandomPair();
         });
 
-        // Funktion für den Aufdecken-Button
+        // Event Listener für den Aufdecken-Button
         revealBtn.addEventListener("click", function() {
             if (currentPair) {
                 // Zeige den Wert nach dem Komma an
@@ -615,6 +624,30 @@
                 // Blende den Aufdecken-Button wieder aus
                 revealBtn.style.display = "none";
             }
+        });
+
+        // Event Listener für den Weiter-Button
+        nextBtn.addEventListener("click", function() {
+            // Lösche die aktuellen Ergebnisse
+            document.querySelectorAll('p').forEach(p => p.remove());
+
+            // Zeige ein neues zufälliges Wertpaar an
+            showRandomPair();
+        });
+
+        // Event Listener für den Zurück-Button zu dc und cd
+        backToDcCd.addEventListener("click", function() {
+            // Blende den Zurück-, Weiter- und Aufdecken-Button aus
+            revealBtn.style.display = "none";
+            nextBtn.style.display = "none";
+            backToDcCd.style.display = "none";
+
+            // Blende die Buttons dc und cd wieder ein
+            document.getElementById("dcBtn").style.display = "block";
+            document.getElementById("cdBtn").style.display = "block";
+
+            // Lösche die aktuellen Ergebnisse
+            document.querySelectorAll('p').forEach(p => p.remove());
         });
     </script>
 </body>
