@@ -180,7 +180,7 @@
             display: inline-block;
             margin-top: 10px;
             padding: 10px 20px;
-            background-color: #007bff;
+            background-color: #007bff; /* Einheitliches Styling für alle Buttons */
             color: white;
             border: none;
             cursor: pointer;
@@ -400,6 +400,17 @@
             document.getElementById("welcomeText").style.display = "block";
         }
 
+        // Funktion zum Ausblenden aller "Abfrage starten"-Elemente
+        function hideStartQueryElements() {
+            document.getElementById("startQuerySection").style.display = "none";
+            document.getElementById("dcBtn").style.display = "none";
+            document.getElementById("cdBtn").style.display = "none";
+            document.getElementById("revealBtn").style.display = "none";
+            document.getElementById("nextBtn").style.display = "none";
+            document.getElementById("backToDcCd").style.display = "none";
+            document.querySelectorAll('p').forEach(p => p.remove()); // Entferne alle resultierenden <p>-Elemente
+        }
+
         // Info-Button: Zeige Info Modal
         infoButton.addEventListener("click", function() {
             infoModal.style.display = "block";
@@ -420,6 +431,7 @@
         // Zurück-Button entfernen, wenn "Reset" gedrückt wird
         document.getElementById("reset").addEventListener("click", function() {
             hideWelcomeText();
+            hideStartQueryElements(); // Füge dies hinzu
             document.getElementById("resetOptions").style.display = "block";
             document.getElementById("vocabForm").style.display = "none";
             document.getElementById("vocabSheetForm").style.display = "none";
@@ -441,6 +453,7 @@
         // Event Listener für Menüpunkt "Einzelne Vokabel"
         document.getElementById("singleVocab").addEventListener("click", function() {
             hideWelcomeText();
+            hideStartQueryElements(); // Füge dies hinzu
             document.getElementById("vocabForm").style.display = "block";
             document.getElementById("vocabSheetForm").style.display = "none";
             document.getElementById("resetOptions").style.display = "none";
@@ -450,6 +463,7 @@
         // Event Listener für Menüpunkt "Vokabel-Sheet eingeben"
         document.getElementById("vocabSheet").addEventListener("click", function() {
             hideWelcomeText();
+            hideStartQueryElements(); // Füge dies hinzu
             document.getElementById("vocabForm").style.display = "none";
             document.getElementById("vocabSheetForm").style.display = "block";
             document.getElementById("resetOptions").style.display = "none";
@@ -473,10 +487,17 @@
         // Event Listener für Menüpunkt "Download"
         document.getElementById("download").addEventListener("click", function() {
             hideWelcomeText();
+            hideStartQueryElements(); // Füge dies hinzu
             document.getElementById("vocabForm").style.display = "none";
             document.getElementById("vocabSheetForm").style.display = "none";
             document.getElementById("resetOptions").style.display = "none";
             document.getElementById("downloadForm").style.display = "block";  // Download-Formular anzeigen
+        });
+
+        // Event Listener für "Zurück zur Startseite" auf der "Abfrage starten"-Seite
+        document.getElementById("backToStartFromQuery").addEventListener("click", function() {
+            hideStartQueryElements(); // Abfrage-Elemente ausblenden
+            showWelcomeText();  // Begrüßungstext anzeigen
         });
 
         // CSV Datei einlesen und zum Zwischenspeicher hinzufügen (nicht überschreiben)
