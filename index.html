@@ -180,7 +180,7 @@
             display: inline-block;
             margin-top: 10px;
             padding: 10px 20px;
-            background-color: #007bff; /* Einheitliches Styling für alle Buttons */
+            background-color: #007bff;
             color: white;
             border: none;
             cursor: pointer;
@@ -352,7 +352,7 @@
             <button id="revealBtn" style="display: none;">Aufdecken</button>
             <!-- Button zum Weitergehen -->
             <button id="nextBtn" style="display: none;">Weiter</button>
-            <!-- Zurück-Button nach Drücken von dc -->
+            <!-- Zurück-Button nach Drücken von dc oder cd -->
             <button id="backToDcCd" style="display: none;">Zurück zu dc und cd</button>
             <!-- Zurück-Button -->
             <button class="back-button" id="backToStartFromQuery">← Zurück zur Startseite</button>
@@ -362,6 +362,7 @@
     <!-- JavaScript für Menü-Interaktionen -->
     <script>
         let csvData = [];
+        let mode = ""; // Um den aktuellen Modus zu speichern ("dc" oder "cd")
         let currentPair = null; // Um das zufällig ausgewählte Paar zu speichern
         const fileInput = document.getElementById('fileInput');
         const fileDetails = document.getElementById('fileDetails');
@@ -598,78 +599,123 @@
             showWelcomeText();
         });
 
-        // Funktion zum Anzeigen eines zufälligen Werts vor dem Komma
-        function showRandomPair() {
-            if (csvData.length > 0) {
-                // Wähle ein zufälliges Paar
-                const randomIndex = Math.floor(Math.random() * csvData.length);
-                currentPair = csvData[randomIndex];
+    
+        // Event Listener für den "dc"-Button
+    document.getElementById("dcBtn").addEventListener("click", function () {
+        document.getElementById("dcBtn").style.display = "none";
+        document.getElementById("cdBtn").style.display = "none";
+        showRandomPairBeforeComma();  // Zeige den Wert vor dem Komma
+    });
 
-                // Extrahiere den Wert vor dem Komma
-                const valueBeforeComma = currentPair[0];
 
-                // Zeige den Wert vor dem Komma an
-                const resultElement = document.createElement("p");
-                resultElement.innerText = `Der Wert vor dem Komma ist: ${valueBeforeComma}`;
-                document.body.appendChild(resultElement);
+   
 
-                // Blende den Aufdecken- und Weiter-Button ein
-                revealBtn.style.display = "block";
-                nextBtn.style.display = "block";
-                // Zeige den Zurück-Button an
-                backToDcCd.style.display = "block";
-            } else {
-                alert("Zwischenspeicher ist leer.");
-            }
-        }
+         // Event Listener für den "cd"-Button
+    document.getElementById("cdBtn").addEventListener("click", function () {
+        document.getElementById("dcBtn").style.display = "none";
+        document.getElementById("cdBtn").style.display = "none";
+        showRandomPairAfterComma();  // Zeige den Wert nach dem Komma
+    });
 
-        // Event Listener für "dc"-Button
-        document.getElementById("dcBtn").addEventListener("click", function() {
-            // Blende die Buttons "dc" und "cd" aus
-            document.getElementById("dcBtn").style.display = "none";
-            document.getElementById("cdBtn").style.display = "none";
 
-            // Zeige einen zufälligen Wert an
-            showRandomPair();
-        });
-
-        // Event Listener für den Aufdecken-Button
-        revealBtn.addEventListener("click", function() {
-            if (currentPair) {
-                // Zeige den Wert nach dem Komma an
+          // Event Listener für den "Reveal"-Button
+    document.getElementById("revealBtn").addEventListener("click", function () {
+        if (currentPair) {
+            if (mode === "dc") {
+                // Wenn "dc" gedrückt wurde, zeige den Wert nach dem Komma
                 const valueAfterComma = currentPair[1];
                 const revealElement = document.createElement("p");
                 revealElement.innerText = `Der Wert nach dem Komma ist: ${valueAfterComma}`;
                 document.body.appendChild(revealElement);
+            } else if (mode === "cd") {
+                // Wenn "cd" gedrückt wurde, zeige den Wert vor dem Komma
+                const valueBeforeComma = currentPair[0];
+                const revealElement = document.createElement("p");
+                revealElement.innerText = `Der Wert vor dem Komma ist: ${valueBeforeComma}`;
+                document.body.appendChild(revealElement);
+            }
 
-                // Blende den Aufdecken-Button wieder aus
+            // Verstecke den "Reveal"-Button nach der Enthüllung
+            document.getElementById("revealBtn").style.display = "none";
+        }
+    });
+
+        // Event Listener für den Aufdecken-Button
+        revealBtn.addEventListener("click", function() {
+            if (currentPair) {
+                const valueAfterComma = currentPair[1];
+                const revealElement = document.createElement("p");
+                // revealElement.innerText = `Der Wert nach dem Komma ist: ${valueAfterComma}`;
+                document.body.appendChild(revealElement);
                 revealBtn.style.display = "none";
             }
         });
 
-        // Event Listener für den Weiter-Button
-        nextBtn.addEventListener("click", function() {
-            // Lösche die aktuellen Ergebnisse
-            document.querySelectorAll('p').forEach(p => p.remove());
+   // Event Listener für den "Weiter"-Button
+   document.getElementById("nextBtn").addEventListener("click", function () {
+        // Entferne alle angezeigten Paare
+        document.querySelectorAll('p').forEach(p => p.remove());
+        if (mode === "dc") {
+            showRandomPairBeforeComma();  // Nächste Abfrage im dc-Modus
+        }
+    });
+    // Event Listener für den "Zurück zu dc und cd"-Button
+    document.getElementById("backToDcCd").addEventListener("click", function () {
+        // Verstecke unnötige Buttons
+        document.getElementById("revealBtn").style.display = "none";
+        document.getElementById("nextBtn").style.display = "none";
+        document.getElementById("backToDcCd").style.display = "none";
 
-            // Zeige ein neues zufälliges Wertpaar an
-            showRandomPair();
-        });
+        // Zeige die dc und cd Buttons wieder an
+        document.getElementById("dcBtn").style.display = "block";
+        document.getElementById("cdBtn").style.display = "block";
 
-        // Event Listener für den Zurück-Button zu dc und cd
-        backToDcCd.addEventListener("click", function() {
-            // Blende den Zurück-, Weiter- und Aufdecken-Button aus
-            revealBtn.style.display = "none";
-            nextBtn.style.display = "none";
-            backToDcCd.style.display = "none";
+        // Entferne alle angezeigten Paare
+        document.querySelectorAll('p').forEach(p => p.remove());
+    });
 
-            // Blende die Buttons dc und cd wieder ein
-            document.getElementById("dcBtn").style.display = "block";
-            document.getElementById("cdBtn").style.display = "block";
+    // Funktion zum Anzeigen eines zufälligen Werts vor dem Komma (dc-Button)
+    function showRandomPairBeforeComma() {
+        if (csvData.length > 0) {
+            const randomIndex = Math.floor(Math.random() * csvData.length);
+            currentPair = csvData[randomIndex];
+            const valueBeforeComma = currentPair[0];  // Wert vor dem Komma
 
-            // Lösche die aktuellen Ergebnisse
-            document.querySelectorAll('p').forEach(p => p.remove());
-        });
+            const resultElement = document.createElement("p");
+            resultElement.innerText = `Der Wert vor dem Komma ist: ${valueBeforeComma}`;
+            document.body.appendChild(resultElement);
+
+            // Zeige den "Reveal"-Button, um den Wert nach dem Komma anzuzeigen
+            document.getElementById("revealBtn").style.display = "block";
+            document.getElementById("nextBtn").style.display = "block";  // Zeige den "Weiter"-Button
+            document.getElementById("backToDcCd").style.display = "block";  // Zeige den "Zurück zu dc und cd"-Button
+            mode = "dc";  // Modus auf "dc" setzen
+        } else {
+            alert("Zwischenspeicher ist leer.");
+        }
+    }
+
+        // Funktion zum Anzeigen eines zufälligen Werts nach dem Komma (cd-Button)
+    function showRandomPairAfterComma() {
+        if (csvData.length > 0) {
+            const randomIndex = Math.floor(Math.random() * csvData.length);
+            currentPair = csvData[randomIndex];
+            const valueAfterComma = currentPair[1];  // Wert nach dem Komma
+
+            const resultElement = document.createElement("p");
+            resultElement.innerText = `Der Wert nach dem Komma ist: ${valueAfterComma}`;
+            document.body.appendChild(resultElement);
+
+            // Zeige den "Reveal"-Button, um den Wert vor dem Komma anzuzeigen
+            document.getElementById("revealBtn").style.display = "block";
+            document.getElementById("nextBtn").style.display = "none";  // Verstecke den "Weiter"-Button bei cd
+            document.getElementById("backToDcCd").style.display = "block";  // Zeige den "Zurück zu dc und cd"-Button
+            mode = "cd";  // Modus auf "cd" setzen
+        } else {
+            alert("Zwischenspeicher ist leer.");
+        }
+    }
+
     </script>
 </body>
 </html>
