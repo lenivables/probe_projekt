@@ -99,39 +99,40 @@
 
         /* Modal Stil */
         .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            padding-top: 60px;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
+        display: none;  /* Standardmäßig ausgeblendet */
+        position: fixed;
+        z-index: 1;  /* Zeigt es über anderen Inhalten */
+        padding-top: 100px;  /* Abstand von der Oberseite */
+        left: 0;
+        top: 0;
+        width: 100%;  /* Volle Breite */
+        height: 100%;  /* Volle Höhe */
+        overflow: auto;  /* Ermöglicht Scrollen, wenn nötig */
+        background-color: rgb(0,0,0);  /* Schwarzer Hintergrund mit Transparenz */
+        background-color: rgba(0,0,0,0.4);  /* Weniger Deckkraft */
+    }
 
         .modal-content {
-            background-color: white;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 400px;
-        }
-
+        background-color: #fefefe;
+        margin: auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;  /* Breite des Modals */
+        max-width: 500px;  /* Maximale Breite des Modals */
+    }
         .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
 
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
+    .close:hover,
+    .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
 
         /* Hauptinhalt */
         .content {
@@ -352,6 +353,7 @@
             <button id="revealBtn" style="display: none;">Aufdecken</button>
             <!-- Button zum Weitergehen -->
             <button id="nextBtn" style="display: none;">Weiter</button>
+            <button id="neueVokabelBtn" style="display: none;">Neue Vokabel</button>
             <!-- Zurück-Button nach Drücken von dc oder cd -->
             <button id="backToDcCd" style="display: none;">Zurück zu dc und cd</button>
             <!-- Zurück-Button -->
@@ -600,56 +602,107 @@
         });
 
     
-        // Event Listener für den "dc"-Button
-    document.getElementById("dcBtn").addEventListener("click", function () {
-        document.getElementById("dcBtn").style.display = "none";
-        document.getElementById("cdBtn").style.display = "none";
-        showRandomPairBeforeComma();  // Zeige den Wert vor dem Komma
-    });
+      // Event Listener für den "dc"-Button
+      document.getElementById("dcBtn").addEventListener("click", function () {
+    document.getElementById("dcBtn").style.display = "none";
+    document.getElementById("cdBtn").style.display = "none";
+    showRandomPairBeforeComma();  // Zeige den Wert vor dem Komma
+    document.getElementById("neueVokabelBtn").style.display = "none"; 
+    mode = "dc";  // Modus auf "dc" setzen
+});
 
 
    
 
-         // Event Listener für den "cd"-Button
-    document.getElementById("cdBtn").addEventListener("click", function () {
-        document.getElementById("dcBtn").style.display = "none";
-        document.getElementById("cdBtn").style.display = "none";
-        showRandomPairAfterComma();  // Zeige den Wert nach dem Komma
-    });
+ // Event Listener für den "cd"-Button
+ document.getElementById("cdBtn").addEventListener("click", function () {
+    document.getElementById("dcBtn").style.display = "none";
+    document.getElementById("cdBtn").style.display = "none";
+    showRandomPairAfterComma();  // Zeige den Wert nach dem Komma
+    document.getElementById("neueVokabelBtn").style.display = "block"; 
+    mode = "cd";  // Modus auf "cd" setzen
+});
 
 
-          // Event Listener für den "Reveal"-Button
-    document.getElementById("revealBtn").addEventListener("click", function () {
-        if (currentPair) {
-            if (mode === "dc") {
-                // Wenn "dc" gedrückt wurde, zeige den Wert nach dem Komma
-                const valueAfterComma = currentPair[1];
-                const revealElement = document.createElement("p");
-                revealElement.innerText = `Der Wert nach dem Komma ist: ${valueAfterComma}`;
-                document.body.appendChild(revealElement);
-            } else if (mode === "cd") {
-                // Wenn "cd" gedrückt wurde, zeige den Wert vor dem Komma
-                const valueBeforeComma = currentPair[0];
-                const revealElement = document.createElement("p");
-                revealElement.innerText = `Der Wert vor dem Komma ist: ${valueBeforeComma}`;
-                document.body.appendChild(revealElement);
-            }
+// Event Listener für den "neue Vokabel"-Button
+document.getElementById("neueVokabelBtn").addEventListener("click", function () {
+    showNewRandomPairAfterComma();  // Neue Funktion aufrufen
+});
+// document.getElementById("nextBtn").addEventListener("click", function () {
+//         // Entferne alle angezeigten Paare
+//         document.querySelectorAll('p').forEach(p => p.remove());
+//         if (mode === "dc") {
+//             showRandomPairAfterComma();  // Nächste Abfrage im dc-Modus
+//         }
+//     });
 
-            // Verstecke den "Reveal"-Button nach der Enthüllung
-            document.getElementById("revealBtn").style.display = "none";
-        }
-    });
+function showNewRandomPairAfterComma() {
+    if (csvData.length > 0) {
+        const randomIndex = Math.floor(Math.random() * csvData.length);  // Wähle einen zufälligen Index
+        currentPair = csvData[randomIndex];  // Speichere das zufällige Paar in currentPair
+        const valueAfterComma = currentPair[1];  // Wert nach dem Komma (zweiter Wert des Paars)
+
+        // Entferne alte Anzeige, wenn vorhanden
+        document.querySelectorAll('p').forEach(p => p.remove());
+
+        // Erstelle und zeige das neue Ergebnis
+        const resultElement = document.createElement("p");
+        resultElement.innerText = `Der neue Wert nach dem Komma ist: ${valueAfterComma}`;
+        document.body.appendChild(resultElement);
+
+        // Zeige den Aufdecken-Button wieder an
+        document.getElementById("revealBtn").style.display = "block";
+    } else {
+        alert("Zwischenspeicher ist leer.");  // Wenn keine Daten vorhanden sind
+    }
+}
+
+
+
+
+    //       // Event Listener für den "Reveal"-Button
+    // document.getElementById("revealBtn").addEventListener("click", function () {
+    //     if (currentPair) {
+    //         if (mode === "dc") {
+    //             // Wenn "dc" gedrückt wurde, zeige den Wert nach dem Komma
+    //             const valueAfterComma = currentPair[1];
+    //             const revealElement = document.createElement("p");
+    //             revealElement.innerText = `Der Wert nach dem Komma ist: ${valueAfterComma}`;
+    //             document.body.appendChild(revealElement);
+    //         } else if (mode === "cd") {
+    //             // Wenn "cd" gedrückt wurde, zeige den Wert vor dem Komma
+    //             const valueBeforeComma = currentPair[0];
+    //             const revealElement = document.createElement("p");
+    //             revealElement.innerText = `Der Wert vor dem Komma ist: ${valueBeforeComma}`;
+    //             document.body.appendChild(revealElement);
+    //         }
+
+    //         // Verstecke den "Reveal"-Button nach der Enthüllung
+    //         document.getElementById("revealBtn").style.display = "none";
+    //     }
+    // });
 
         // Event Listener für den Aufdecken-Button
-        revealBtn.addEventListener("click", function() {
-            if (currentPair) {
-                const valueAfterComma = currentPair[1];
-                const revealElement = document.createElement("p");
-                // revealElement.innerText = `Der Wert nach dem Komma ist: ${valueAfterComma}`;
-                document.body.appendChild(revealElement);
-                revealBtn.style.display = "none";
-            }
-        });
+        document.getElementById("revealBtn").addEventListener("click", function () {
+    if (currentPair) {
+        if (mode === "dc") {
+            // Wenn im "dc"-Modus, zeige den Wert nach dem Komma an
+            const valueAfterComma = currentPair[1];
+            const revealElement = document.createElement("p");
+            revealElement.innerText = `Der Wert nach dem Komma ist: ${valueAfterComma}`;
+            document.body.appendChild(revealElement);
+        } else if (mode === "cd") {
+            // Wenn im "cd"-Modus, zeige den Wert vor dem Komma an
+            const valueBeforeComma = currentPair[0];
+            const revealElement = document.createElement("p");
+            revealElement.innerText = `Der Wert vor dem Komma ist: ${valueBeforeComma}`;
+            document.body.appendChild(revealElement);
+        }
+
+        // Verstecke den "Reveal"-Button nach der Enthüllung
+        document.getElementById("revealBtn").style.display = "none";
+    }
+});
 
    // Event Listener für den "Weiter"-Button
    document.getElementById("nextBtn").addEventListener("click", function () {
@@ -659,20 +712,22 @@
             showRandomPairBeforeComma();  // Nächste Abfrage im dc-Modus
         }
     });
-    // Event Listener für den "Zurück zu dc und cd"-Button
+
+   // Event Listener für den "Zurück zu dc und cd"-Button
     document.getElementById("backToDcCd").addEventListener("click", function () {
-        // Verstecke unnötige Buttons
-        document.getElementById("revealBtn").style.display = "none";
-        document.getElementById("nextBtn").style.display = "none";
-        document.getElementById("backToDcCd").style.display = "none";
+    // Verstecke unnötige Buttons
+    document.getElementById("revealBtn").style.display = "none";
+    document.getElementById("nextBtn").style.display = "none";
+    document.getElementById("backToDcCd").style.display = "none";
+    document.getElementById("neueVokabelBtn").style.display = "none"; // Verstecke den Button "neue Vokabel"
 
-        // Zeige die dc und cd Buttons wieder an
-        document.getElementById("dcBtn").style.display = "block";
-        document.getElementById("cdBtn").style.display = "block";
+    // Zeige die dc und cd Buttons wieder an
+    document.getElementById("dcBtn").style.display = "block";
+    document.getElementById("cdBtn").style.display = "block";
 
-        // Entferne alle angezeigten Paare
-        document.querySelectorAll('p').forEach(p => p.remove());
-    });
+    // Entferne alle angezeigten Paare
+    document.querySelectorAll('p').forEach(p => p.remove());
+});
 
     // Funktion zum Anzeigen eines zufälligen Werts vor dem Komma (dc-Button)
     function showRandomPairBeforeComma() {
