@@ -250,6 +250,76 @@
         .message {
             margin-top: 10px;
         }
+
+/* Spezifischer Stil für den "Aufdecken"-Button */
+#revealBtn {
+    padding: 10px 20px;
+    background-color: #28a745;  /* Grün für Aufdecken */
+    color: white;
+    border: none;
+    border-radius: 5px;  /* Abgerundete Ecken */
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;  /* Weicher Übergang bei Hover */
+    margin-top: 10px;
+}
+
+#revealBtn:hover {
+    background-color: #218838;  /* Dunkleres Grün beim Hover */
+}
+
+/* Spezifischer Stil für den "Neue Vokabel"-Button */
+#neueVokabelBtn,
+#nextBtn {
+    padding: 10px 20px;
+    background-color: #17a2b8;  /* Türkis für neue Vokabel */
+    color: white;
+    border: none;
+    border-radius: 5px;  /* Abgerundete Ecken */
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+#neueVokabelBtn:hover,
+#nextBtn:hover {
+    background-color: #138496;  /* Dunkleres Türkis beim Hover */
+}
+
+/* Spezifischer Stil für den "Zurück zu dc und cd"-Button */
+#backToDcCd {
+    background-color: #6c757d;  /* Neuer Blauton für Zurück zu dc und cd */
+    color: white;
+}
+
+#backToDcCd:hover {
+    background-color: #5a6268;  /* Dunklerer Blauton beim Hover */
+}
+
+/* Container für die Buttons nebeneinander */
+.button-container {
+    display: flex;
+    gap: 10px; /* Abstand zwischen den Buttons */
+    justify-content: flex-start; /* Ausrichtung am linken Rand */
+    margin-top: 10px;
+}
+
+/* Stil für beide Buttons */
+#backToDcCd,
+#backToStartFromQuery {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+
+
+
     </style>
 </head>
 <body>
@@ -288,14 +358,14 @@
 
         <!-- Formular für Einzelne Vokabel -->
         <div class="vocab-form" id="vocabForm">
-            <h2>Werte eingeben</h2>
-            <label for="field1">Wert 1:</label>
+            <h2>Einzelne Vokabel</h2>
+            <label for="field1">deutsche Vokabel:</label>
             <input type="text" id="field1"><br><br>
-            <label for="field2">Wert 2:</label>
+            <label for="field2">chinesische Vokabel:</label>
             <input type="text" id="field2"><br><br>
             
             <button id="addBtn">Abgeben</button>
-            <button id="showBtn">Abrufen</button>
+            <button id="showBtn">Zwischenspeicher abrufen</button>
 
             <!-- Erfolgs- oder Fehlermeldung anzeigen -->
             <div id="vocabMessage"></div>
@@ -309,7 +379,7 @@
 
         <!-- Formular für Vokabel-Sheet (CSV-Datei hochladen) -->
         <div class="vocab-form" id="vocabSheetForm" style="display: none;">
-            <h1>CSV Datei Bearbeitung</h1>
+            <h1>CSV Vokabel-Sheet eingeben</h1>
     
             <input type="file" id="fileInput" accept=".csv">
             <button id="submitBtn">Fertig</button>
@@ -347,17 +417,19 @@
         <!-- Bereich für Abfrage starten -->
         <div class="startQuery" id="startQuerySection" style="display: none;">
             <h1>Abfrage starten</h1>
-            <button id="dcBtn">dc</button>
-            <button id="cdBtn">cd</button>
+            <button id="dcBtn">deutsch-chinesisch</button>
+            <button id="cdBtn">chinesisch-deutsch</button>
             <!-- Neuer Button zum Aufdecken -->
             <button id="revealBtn" style="display: none;">Aufdecken</button>
             <!-- Button zum Weitergehen -->
             <button id="nextBtn" style="display: none;">Weiter</button>
             <button id="neueVokabelBtn" style="display: none;">Neue Vokabel</button>
+            <div class="button-container">
             <!-- Zurück-Button nach Drücken von dc oder cd -->
-            <button id="backToDcCd" style="display: none;">Zurück zu dc und cd</button>
+            <button id="backToDcCd" style="display: none;">Zurück zur Sprachauswahl</button>
             <!-- Zurück-Button -->
             <button class="back-button" id="backToStartFromQuery">← Zurück zur Startseite</button>
+        </div>
         </div>
     </div>
 
@@ -518,7 +590,7 @@
                 };
                 reader.readAsText(selectedFile);
             } else {
-                fileDetails.textContent = 'Keine Datei ausgewählt.';
+                fileDetails.textContent = 'Keine CSV-Datei ausgewählt.';
             }
         });
 
