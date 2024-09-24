@@ -317,6 +317,44 @@
     margin-top: 10px;
 }
 
+/* Stil für alle "Zurück zur Startseite"-Buttons */
+.back-to-start-button {
+    padding: 10px 20px;
+    background-color: #28a745;  /* Grün für Neue Vokabel und Zurück zur Startseite */
+    color: white;
+    border: none;
+    border-radius: 5px;  /* Abgerundete Ecken */
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.back-to-start-button:hover {
+    background-color: #218838;  /* Dunkleres Grün beim Hover */
+}
+
+
+/* Stil für die "Deutsch-Chinesisch" und "Chinesisch-Deutsch" Buttons */
+#dcBtn, #cdBtn {
+    padding: 12px 24px;
+    background-color: #8FBC8F;  /* Sanftes, dezentes Grün (Dark Sea Green) */
+    color: white;
+    border: none;
+    border-radius: 8px;  /* Abgerundete Ecken */
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin: 10px 5px;
+}
+
+/* Hover-Effekt für die Buttons */
+#dcBtn:hover, #cdBtn:hover {
+    background-color: #7CA982;  /* Ein etwas dunkleres Grün beim Hover */
+    transform: translateY(-2px);  /* Leichtes Anheben beim Hover */
+}
+
+
 
 
 
@@ -374,7 +412,7 @@
             <div id="vocabOutput"></div>
 
             <!-- Zurück-Button -->
-            <button class="back-button" id="backToStart">← Zurück zur Startseite</button>
+            <button class="back-to-start-button" id="backToStart">← Zurück zur Startseite</button>
         </div>
 
         <!-- Formular für Vokabel-Sheet (CSV-Datei hochladen) -->
@@ -393,7 +431,7 @@
             <div id="csvOutput"></div>
 
             <!-- Zurück-Button -->
-            <button class="back-button" id="backToStartFromSheet">← Zurück zur Startseite</button>
+            <button class="back-to-start-button" id="backToStartFromSheet">← Zurück zur Startseite</button>
         </div>
 
         <!-- Reset-Optionen -->
@@ -411,7 +449,7 @@
             <div id="downloadMessage" class="message error"></div>
 
             <!-- Zurück-Button -->
-            <button class="back-button" id="backToStartFromDownload">← Zurück zur Startseite</button>
+            <button class="back-to-start-button" id="backToStartFromDownload">← Zurück zur Startseite</button>
         </div>
 
         <!-- Bereich für Abfrage starten -->
@@ -428,7 +466,7 @@
             <!-- Zurück-Button nach Drücken von dc oder cd -->
             <button id="backToDcCd" style="display: none;">Zurück zur Sprachauswahl</button>
             <!-- Zurück-Button -->
-            <button class="back-button" id="backToStartFromQuery">← Zurück zur Startseite</button>
+            <button class="back-to-start-button" id="backToStartFromQuery">← Zurück zur Startseite</button>
         </div>
         </div>
     </div>
