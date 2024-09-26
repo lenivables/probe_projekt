@@ -354,16 +354,135 @@
     transform: translateY(-2px);  /* Leichtes Anheben beim Hover */
 }
 
+/* Grundlegendes Menü-Styling */
+.menu {
+    background-color: #333;
+    overflow: hidden;
+}
 
+/* Links und Dropdown-Buttons im Menü */
+.menu a, .menu .dropbtn {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+}
 
+/* Hover-Effekt für Links und Dropdowns auf großen Bildschirmen */
+.menu a:hover, .dropdown:hover .dropbtn {
+    background-color: #ddd;
+    color: black;
+}
 
+/* Verstecke den Menü-Toggle und das Hamburger-Icon standardmäßig */
+#menu-toggle, .menu-icon {
+    display: none;
+}
+
+/* Dropdown für große Bildschirme */
+.dropdown {
+    float: left;
+    overflow: hidden;
+}
+
+.dropdown .dropbtn {
+    display: block;
+    color: white;
+    background-color: #333;
+    padding: 14px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Dropdown-Inhalte auf großen Bildschirmen */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Mobile Version für Bildschirme kleiner als 768px */
+@media screen and (max-width: 768px) {
+    /* Zeige das Hamburger-Icon und verstecke das Menü standardmäßig */
+    .menu-icon {
+        display: block;
+        float: right;
+        font-size: 26px;
+        color: white;
+        padding: 14px 20px;
+        cursor: pointer;
+    }
+
+    /* Standardmäßig Menü-Links verstecken */
+    .menu-links {
+        display: none;
+        width: 100%;
+        text-align: left;
+    }
+
+    /* Zeige Menü-Links, wenn das Hamburger-Menü aktiviert ist */
+    #menu-toggle:checked + .menu-icon + .menu-links {
+        display: block;
+    }
+
+    /* Menü-Links untereinander darstellen (block statt float) */
+    .menu-links a, .menu-links .dropbtn {
+        display: block; /* Block-Darstellung sorgt dafür, dass die Links untereinander stehen */
+        padding: 14px;
+        background-color: #333;
+        color: white;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    /* Standardmäßig Dropdown-Inhalte verstecken */
+    .dropdown-content {
+        display: none;
+        background-color: #444;
+    }
+
+    /* Zeige Dropdown-Inhalte, wenn die Klasse 'active' gesetzt ist */
+    .dropbtn.active + .dropdown-content {
+        display: block;
+    }
+
+    .dropdown-content a {
+        display: block;
+        padding: 12px;
+        background-color: #333;
+        color: white;
+    }
+}
 
     </style>
 </head>
 <body>
-    <!-- Menüleiste -->
+
     <div class="menu">
-        <a href="#" id="startQuery">Abfrage starten</a>
+        <!-- Hamburger-Checkbox für kleine Bildschirme -->
+        <input type="checkbox" id="menu-toggle">
+        <label for="menu-toggle" class="menu-icon">&#9776;</label>
+    
+        <!-- Menü-Links -->
+        <div class="menu-links">
+            <a href="#" id="startQuery">Abfrage starten</a>
         <div class="dropdown">
             <button class="dropbtn">Neue Vokabel</button>
             <div class="dropdown-content">
@@ -376,7 +495,11 @@
 
         <!-- Info-Button -->
         <div class="info-button" id="infoButton">i</div>
+        </div>
     </div>
+    
+    
+    
 
     <!-- Info Modal -->
     <div id="infoModal" class="modal">
@@ -391,7 +514,7 @@
         <!-- Begrüßungstext -->
         <div id="welcomeText">
             <h1>Willkommen zum Vokabeltrainer</h1>
-<!--             <p>Scrollen Sie, um den Rest des Inhalts zu sehen.</p> -->
+            <p>Scrollen Sie, um den Rest des Inhalts zu sehen.</p>
         </div>
 
         <!-- Formular für Einzelne Vokabel -->
@@ -543,6 +666,7 @@
 
         // Zurück-Button entfernen, wenn "Reset" gedrückt wird
         document.getElementById("reset").addEventListener("click", function() {
+            event.preventDefault();  // Verhindert das Neuladen der Seite
             hideWelcomeText();
             hideStartQueryElements(); // Füge dies hinzu
             document.getElementById("resetOptions").style.display = "block";
@@ -565,6 +689,7 @@
 
         // Event Listener für Menüpunkt "Einzelne Vokabel"
         document.getElementById("singleVocab").addEventListener("click", function() {
+            event.preventDefault();  // Verhindert das Neuladen der Seite
             hideWelcomeText();
             hideStartQueryElements(); // Füge dies hinzu
             document.getElementById("vocabForm").style.display = "block";
@@ -575,6 +700,7 @@
 
         // Event Listener für Menüpunkt "Vokabel-Sheet eingeben"
         document.getElementById("vocabSheet").addEventListener("click", function() {
+            event.preventDefault();  // Verhindert das Neuladen der Seite
             hideWelcomeText();
             hideStartQueryElements(); // Füge dies hinzu
             document.getElementById("vocabForm").style.display = "none";
@@ -585,6 +711,7 @@
 
         // Event Listener für Menüpunkt "Abfrage starten"
         document.getElementById("startQuery").addEventListener("click", function() {
+            event.preventDefault();  // Verhindere, dass der Link die Seite neu lädt
             hideWelcomeText();
             document.getElementById("vocabForm").style.display = "none";
             document.getElementById("vocabSheetForm").style.display = "none";
@@ -599,6 +726,7 @@
 
         // Event Listener für Menüpunkt "Download"
         document.getElementById("download").addEventListener("click", function() {
+            event.preventDefault();  // Verhindert das Neuladen der Seite
             hideWelcomeText();
             hideStartQueryElements(); // Füge dies hinzu
             document.getElementById("vocabForm").style.display = "none";
@@ -757,7 +885,7 @@ function showNewRandomPairAfterComma() {
 
         // Erstelle und zeige das neue Ergebnis
         const resultElement = document.createElement("p");
-        resultElement.innerText = `Die chinesische Vokabel ist: ${valueAfterComma}`;
+        resultElement.innerText = `Der neue Wert nach dem Komma ist: ${valueAfterComma}`;
         document.body.appendChild(resultElement);
 
         // Zeige den Aufdecken-Button wieder an
@@ -777,13 +905,13 @@ function showNewRandomPairAfterComma() {
     //             // Wenn "dc" gedrückt wurde, zeige den Wert nach dem Komma
     //             const valueAfterComma = currentPair[1];
     //             const revealElement = document.createElement("p");
-    //             revealElement.innerText = `Der chinesische Vokabel ist: ${valueAfterComma}`;
+    //             revealElement.innerText = `Der Wert nach dem Komma ist: ${valueAfterComma}`;
     //             document.body.appendChild(revealElement);
     //         } else if (mode === "cd") {
     //             // Wenn "cd" gedrückt wurde, zeige den Wert vor dem Komma
     //             const valueBeforeComma = currentPair[0];
     //             const revealElement = document.createElement("p");
-    //             revealElement.innerText = `Die deutsche Vokabel ist: ${valueBeforeComma}`;
+    //             revealElement.innerText = `Der Wert vor dem Komma ist: ${valueBeforeComma}`;
     //             document.body.appendChild(revealElement);
     //         }
 
@@ -799,13 +927,13 @@ function showNewRandomPairAfterComma() {
             // Wenn im "dc"-Modus, zeige den Wert nach dem Komma an
             const valueAfterComma = currentPair[1];
             const revealElement = document.createElement("p");
-            revealElement.innerText = `Die chinesische Vokabel ist: ${valueAfterComma}`;
+            revealElement.innerText = `Der Wert nach dem Komma ist: ${valueAfterComma}`;
             document.body.appendChild(revealElement);
         } else if (mode === "cd") {
             // Wenn im "cd"-Modus, zeige den Wert vor dem Komma an
             const valueBeforeComma = currentPair[0];
             const revealElement = document.createElement("p");
-            revealElement.innerText = `Die deutsche Vokabel ist: ${valueBeforeComma}`;
+            revealElement.innerText = `Der Wert vor dem Komma ist: ${valueBeforeComma}`;
             document.body.appendChild(revealElement);
         }
 
@@ -847,7 +975,7 @@ function showNewRandomPairAfterComma() {
             const valueBeforeComma = currentPair[0];  // Wert vor dem Komma
 
             const resultElement = document.createElement("p");
-            resultElement.innerText = `Die deutsche Vokabel ist: ${valueBeforeComma}`;
+            resultElement.innerText = `Der Wert vor dem Komma ist: ${valueBeforeComma}`;
             document.body.appendChild(resultElement);
 
             // Zeige den "Reveal"-Button, um den Wert nach dem Komma anzuzeigen
@@ -868,7 +996,7 @@ function showNewRandomPairAfterComma() {
             const valueAfterComma = currentPair[1];  // Wert nach dem Komma
 
             const resultElement = document.createElement("p");
-            resultElement.innerText = `Der chinesische Vokabel ist: ${valueAfterComma}`;
+            resultElement.innerText = `Der Wert nach dem Komma ist: ${valueAfterComma}`;
             document.body.appendChild(resultElement);
 
             // Zeige den "Reveal"-Button, um den Wert vor dem Komma anzuzeigen
@@ -880,6 +1008,21 @@ function showNewRandomPairAfterComma() {
             alert("Zwischenspeicher ist leer.");
         }
     }
+
+    document.getElementById("dropdown-btn").addEventListener("click", function() {
+    this.classList.toggle("active");
+    const dropdownContent = this.nextElementSibling;
+    if (this.classList.contains("active")) {
+        dropdownContent.style.display = "block";  // Dropdown-Inhalte anzeigen
+    } else {
+        dropdownContent.style.display = "none";  // Dropdown-Inhalte verstecken
+    }
+});
+
+
+
+
+
 
     </script>
 </body>
