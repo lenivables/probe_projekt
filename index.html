@@ -97,38 +97,42 @@
             display: block;
         }
 
-        /* Modal Stil */
-        .modal {
-        display: none;  /* Standardmäßig ausgeblendet */
-        position: fixed;
-        z-index: 1;  /* Zeigt es über anderen Inhalten */
-        padding-top: 100px;  /* Abstand von der Oberseite */
-        left: 0;
-        top: 0;
-        width: 100%;  /* Volle Breite */
-        height: 100%;  /* Volle Höhe */
-        overflow: auto;  /* Ermöglicht Scrollen, wenn nötig */
-        background-color: rgb(0,0,0);  /* Schwarzer Hintergrund mit Transparenz */
-        background-color: rgba(0,0,0,0.4);  /* Weniger Deckkraft */
-    }
+       /* Modal Stil */
+       .modal {
+    display: none;  /* Standardmäßig ausgeblendet */
+    position: fixed;
+    z-index: 1;  /* Zeigt es über anderen Inhalten */
+    left: 0;
+    top: 0;
+    width: 100%;  /* Volle Breite */
+    height: 100%;  /* Volle Höhe */
+    overflow: auto;  /* Ermöglicht Scrollen, wenn nötig */
+    background-color: rgba(0, 0, 0, 0.4);  /* Weniger Deckkraft für den Hintergrund */
+    justify-content: center;
+    align-items: center;
+}
 
-        .modal-content {
-        background-color: #fefefe;
-        margin: auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%;  /* Breite des Modals */
-        max-width: 500px;  /* Maximale Breite des Modals */
-    }
-        .close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-    }
 
-    .close:hover,
-    .close:focus {
+.modal-content {
+    background-color: #fefefe;
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    max-height: 80vh;  /* Begrenze die Höhe auf 80% des sichtbaren Bereichs */
+    overflow-y: auto;  /* Füge Scrollen hinzu, wenn der Inhalt zu groß ist */
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
@@ -420,7 +424,7 @@
 
 /* Mobile Version für Bildschirme kleiner als 768px */
 @media screen and (max-width: 768px) {
-    /* Zeige das Hamburger-Icon und verstecke das Menü standardmäßig */
+    /* Zeige das Hamburger-Symbol und verstecke die Menü-Links */
     .menu-icon {
         display: block;
         float: right;
@@ -430,35 +434,37 @@
         cursor: pointer;
     }
 
-    /* Standardmäßig Menü-Links verstecken */
+    /* Verstecke die Menü-Links standardmäßig */
     .menu-links {
         display: none;
         width: 100%;
         text-align: left;
     }
 
-    /* Zeige Menü-Links, wenn das Hamburger-Menü aktiviert ist */
+    /* Zeige die Menü-Links, wenn das Hamburger-Menü aktiviert ist */
     #menu-toggle:checked + .menu-icon + .menu-links {
         display: block;
     }
 
-    /* Menü-Links untereinander darstellen (block statt float) */
-    .menu-links a, .menu-links .dropbtn {
-        display: block; /* Block-Darstellung sorgt dafür, dass die Links untereinander stehen */
-        padding: 14px;
+    /* Sorge dafür, dass die Menü-Links untereinander dargestellt werden */
+    .menu-links a, 
+    .menu-links .dropbtn {
+        display: block;  /* Block-Darstellung, damit die Links untereinander stehen */
+        width: 100%;     /* Die Links nehmen die volle Breite ein */
+        padding: 14px;   /* Gleichmäßige Abstände */
         background-color: #333;
         color: white;
         text-align: left;
         border-bottom: 1px solid #ddd;
     }
 
-    /* Standardmäßig Dropdown-Inhalte verstecken */
+    /* Dropdown-Inhalte ebenfalls untereinander anzeigen */
     .dropdown-content {
-        display: none;
         background-color: #444;
+        display: none;
     }
 
-    /* Zeige Dropdown-Inhalte, wenn die Klasse 'active' gesetzt ist */
+    /* Zeige Dropdown-Inhalte bei Aktivierung */
     .dropbtn.active + .dropdown-content {
         display: block;
     }
