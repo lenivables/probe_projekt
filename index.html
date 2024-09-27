@@ -530,7 +530,7 @@ input[type="file"] {
         <!-- Begrüßungstext -->
         <div id="welcomeText">
             <h1>Willkommen zum Vokabeltrainer</h1>
-            <p>Scrollen Sie, um den Rest des Inhalts zu sehen.</p>
+            
         </div>
 
         <!-- Formular für Einzelne Vokabel -->
@@ -613,6 +613,7 @@ input[type="file"] {
     <!-- JavaScript für Menü-Interaktionen -->
     <script>
         let csvData = [];
+        let uploadedCsvData = []; // Variable, um nur die abgegebene CSV zu speichern
         let mode = ""; // Um den aktuellen Modus zu speichern ("dc" oder "cd")
         let currentPair = null; // Um das zufällig ausgewählte Paar zu speichern
         const fileInput = document.getElementById('fileInput');
@@ -766,24 +767,24 @@ window.addEventListener("click", function(event) {
             showWelcomeText();  // Begrüßungstext anzeigen
         });
 
-        // CSV Datei einlesen und zum Zwischenspeicher hinzufügen (nicht überschreiben)
-        submitBtn.addEventListener('click', function() {
-            if (fileInput.files.length > 0) {
-                const selectedFile = fileInput.files[0];
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const content = event.target.result;
-                    const newCsvData = content.split('\n').map(row => row.split(','));
-                    csvData = csvData.concat(newCsvData);  // Inhalt hinzufügen, nicht überschreiben
-                    fileDetails.textContent = 'Datei erfolgreich geladen: ' + selectedFile.name;
-                    csvMessage.innerHTML = '<p class="success">CSV erfolgreich abgegeben.</p>';  // Erfolgsnachricht anzeigen
-                    console.log('CSV angehängt:', csvData);
-                };
-                reader.readAsText(selectedFile);
-            } else {
-                fileDetails.textContent = 'Keine CSV-Datei ausgewählt.';
-            }
-        });
+      // CSV-Datei einlesen und zum Zwischenspeicher hinzufügen (nicht überschreiben)
+submitBtn.addEventListener('click', function() {
+    if (fileInput.files.length > 0) {
+        const selectedFile = fileInput.files[0];
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const content = event.target.result;
+            const newCsvData = content.split('\n').map(row => row.split(','));
+            uploadedCsvData = newCsvData;  // Speichere nur die abgegebene CSV-Datei hier
+            csvData = csvData.concat(newCsvData);  // Inhalt zum Zwischenspeicher hinzufügen
+            fileDetails.textContent = 'Datei erfolgreich geladen: ' + selectedFile.name;
+            csvMessage.innerHTML = '<p class="success">CSV erfolgreich abgegeben.</p>';  // Erfolgsnachricht anzeigen
+        };
+        reader.readAsText(selectedFile);
+    } else {
+        fileDetails.textContent = 'Keine CSV-Datei ausgewählt.';
+    }
+});
 
         // Neue Werte in den Zwischenspeicher hinzufügen und Erfolg/Fehlermeldung anzeigen
         addBtn.addEventListener('click', function() {
@@ -813,18 +814,18 @@ window.addEventListener("click", function(event) {
             }
         });
 
-        // CSV-Datei unter dem Button anzeigen
-        printCsvBtn.addEventListener('click', function() {
-            if (csvData.length > 0) {
-                let content = 'Inhalt der hochgeladenen CSV-Datei:\n';
-                csvData.forEach(row => {
-                    content += row.join(', ') + '\n';
-                });
-                csvOutput.textContent = content;
-            } else {
-                csvOutput.textContent = 'Keine CSV-Datei hochgeladen oder CSV ist leer.';
-            }
+      // CSV-Datei ausgeben
+printCsvBtn.addEventListener('click', function() {
+    if (uploadedCsvData.length > 0) {
+        let content = 'Inhalt der abgegebenen CSV-Datei:\n';
+        uploadedCsvData.forEach(row => {
+            content += row.join(', ') + '\n';
         });
+        csvOutput.textContent = content;
+    } else {
+        csvOutput.textContent = 'Keine CSV-Datei abgegeben oder CSV ist leer.';
+    }
+});
 
         // CSV Datei aus dem Zwischenspeicher erstellen und zum Download bereitstellen
         saveBtn.addEventListener('click', function() {
@@ -1052,4 +1053,3 @@ function showNewRandomPairAfterComma() {
     </script>
 </body>
 </html>
-
