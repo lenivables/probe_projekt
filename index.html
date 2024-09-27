@@ -434,12 +434,13 @@
         cursor: pointer;
     }
 
-    /* Verstecke die Menü-Links standardmäßig */
-    .menu-links {
-        display: none;
-        width: 100%;
-        text-align: left;
-    }
+   /* Menüleiste für große Bildschirme */
+.menu-links {
+    display: none;
+    justify-content: space-between; /* Verteilt die Menüpunkte gleichmäßig */
+    gap: 90px; /* Größerer Abstand zwischen den Menüpunkten */
+    padding: 0 50px; /* Innerer Abstand des Menüs */
+}
 
     /* Zeige die Menü-Links, wenn das Hamburger-Menü aktiviert ist */
     #menu-toggle:checked + .menu-icon + .menu-links {
