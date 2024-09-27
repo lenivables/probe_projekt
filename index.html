@@ -643,6 +643,26 @@ input[type="file"] {
         const nextBtn = document.getElementById('nextBtn'); // Weiter Button
         const backToDcCd = document.getElementById('backToDcCd'); // Zurück zu dc und cd Button
 
+// Funktion zum Einklappen des Menüs nach Klick auf einen Menüpunkt
+function collapseMenu() {
+    document.getElementById('menu-toggle').checked = false;  // Menü einklappen
+}
+
+
+
+
+// Füge den Event-Listener zu allen Menülinks hinzu
+document.querySelectorAll('.menu-links a').forEach(menuLink => {
+        menuLink.addEventListener('click', function() {
+            // Nur auf kleinen Bildschirmen einklappen (wenn das Hamburger-Menü sichtbar ist)
+            if (window.innerWidth <= 768) {
+                collapseMenu();
+            }
+        });
+    });
+
+
+
         // Funktion zum Ausblenden des Begrüßungstextes
         function hideWelcomeText() {
             document.getElementById("welcomeText").style.display = "none";
