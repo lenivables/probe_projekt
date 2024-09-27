@@ -476,6 +476,16 @@
         color: white;
     }
 }
+.reset-options .cancel, 
+.reset-options .confirm, 
+#saveBtn, 
+#addBtn, 
+#showBtn, 
+#submitBtn, 
+#printCsvBtn, 
+input[type="file"] {
+    border-radius: 5px; /* Rundung für alle relevanten Buttons */
+}
 
     </style>
 </head>
@@ -653,23 +663,32 @@
             document.querySelectorAll('p').forEach(p => p.remove()); // Entferne alle resultierenden <p>-Elemente
         }
 
-        // Info-Button: Zeige Info Modal
-        infoButton.addEventListener("click", function() {
-            infoModal.style.display = "block";
-        });
+// Info-Button: Zeige Info Modal und setze den Inhalt neu
+infoButton.addEventListener("click", function() {
+    infoModal.style.display = "block"; // Modal anzeigen
+    infoModal.querySelector('.modal-content').innerHTML = `
+        <span class="close" id="closeModal">&times;</span>
+        <p>Ich bin eine Karteikarten Applikation für Chinesisch-deutsche Vokabeln.</p>
+    `;
 
-        // Schließe das Modal
-        closeModal.addEventListener("click", function() {
-            infoModal.style.display = "none";
-        });
+    // Event Listener für den Schließen-Button neu setzen
+    document.getElementById("closeModal").addEventListener("click", function() {
+        infoModal.style.display = "none";
+    });
+});
 
-        // Schließe Modal, wenn der Benutzer außerhalb klickt
-        window.addEventListener("click", function(event) {
-            if (event.target == infoModal) {
-                infoModal.style.display = "none";
-            }
-        });
 
+        // Schließe das Modal, wenn der Schließen-Button gedrückt wird
+closeModal.addEventListener("click", function() {
+    infoModal.style.display = "none";
+}); 
+
+// Schließe Modal, wenn der Benutzer außerhalb klickt
+window.addEventListener("click", function(event) {
+    if (event.target == infoModal) {
+        infoModal.style.display = "none";
+    }
+});
         // Zurück-Button entfernen, wenn "Reset" gedrückt wird
         document.getElementById("reset").addEventListener("click", function() {
             event.preventDefault();  // Verhindert das Neuladen der Seite
@@ -1033,3 +1052,4 @@ function showNewRandomPairAfterComma() {
     </script>
 </body>
 </html>
+
