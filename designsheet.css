@@ -1,0 +1,482 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: auto;
+}
+
+/* Menüleiste */
+.menu {
+    background-color: #333;
+    overflow: hidden;
+}
+
+.menu a {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+}
+
+.menu a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* Info-Button Stil */
+.info-button {
+    float: right;
+    background-color: white;
+    color: #333;
+    text-align: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    margin: 10px 10px;
+    line-height: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.info-button:hover {
+    background-color: #ddd;
+}
+
+/* Dropdown-Menü */
+.dropdown {
+    float: left;
+    overflow: hidden;
+}
+
+.dropdown .dropbtn {
+    display: block;
+    color: white;
+    background-color: #333;
+    padding: 14px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #ddd;
+    color: black;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Modal Stil */
+.modal {
+display: none;  /* Standardmäßig ausgeblendet */
+position: fixed;
+z-index: 1;  /* Zeigt es über anderen Inhalten */
+left: 0;
+top: 0;
+width: 100%;  /* Volle Breite */
+height: 100%;  /* Volle Höhe */
+overflow: auto;  /* Ermöglicht Scrollen, wenn nötig */
+background-color: rgba(0, 0, 0, 0.4);  /* Weniger Deckkraft für den Hintergrund */
+justify-content: center;
+align-items: center;
+}
+
+
+.modal-content {
+background-color: #fefefe;
+margin: 20px;
+padding: 20px;
+border: 1px solid #888;
+width: 80%;
+max-width: 500px;
+max-height: 80vh;  /* Begrenze die Höhe auf 80% des sichtbaren Bereichs */
+overflow-y: auto;  /* Füge Scrollen hinzu, wenn der Inhalt zu groß ist */
+}
+
+.close {
+color: #aaa;
+float: right;
+font-size: 28px;
+font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+color: black;
+text-decoration: none;
+cursor: pointer;
+}
+
+/* Hauptinhalt */
+.content {
+    padding: 20px;
+}
+
+/* Eingabefelder für neue Vokabel */
+.vocab-form {
+    display: none;
+    margin-top: 20px;
+}
+
+.vocab-form input {
+    display: block;
+    margin-bottom: 10px;
+    padding: 8px;
+    width: 100%;
+    max-width: 300px;
+}
+
+.vocab-form button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.vocab-form button:hover {
+    background-color: #218838;
+}
+
+/* Erfolg- und Fehlermeldungen */
+.success {
+    color: green;
+    margin-top: 10px;
+}
+
+.error {
+    color: red;
+    margin-top: 10px;
+}
+
+/* Zurück-Button */
+.back-button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.back-button:hover {
+    background-color: #0056b3;
+}
+
+/* Reset-Optionen */
+.reset-options {
+    display: none;
+    margin-top: 20px;
+}
+
+.reset-options button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.reset-options .cancel {
+    background-color: #dc3545;
+    color: white;
+}
+
+.reset-options .cancel:hover {
+    background-color: #c82333;
+}
+
+.reset-options .confirm {
+    background-color: #007bff;
+    color: white;
+}
+
+.reset-options .confirm:hover {
+    background-color: #0056b3;
+}
+
+/* Begrüßungstext */
+#welcomeText {
+    margin-top: 20px;
+}
+
+/* CSV Datei Bearbeitung */
+#fileDetails, #fileContent {
+    margin-top: 10px;
+    color: green;
+}
+
+#fileContent {
+    white-space: pre-wrap;
+    border: 1px solid #ddd;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+#vocabOutput {
+    margin-top: 10px;
+    color: blue;
+    white-space: pre-wrap;
+}
+
+/* Meldungen */
+.message {
+    margin-top: 10px;
+}
+
+/* Spezifischer Stil für den "Aufdecken"-Button */
+#revealBtn {
+padding: 10px 20px;
+background-color: #28a745;  /* Grün für Aufdecken */
+color: white;
+border: none;
+border-radius: 5px;  /* Abgerundete Ecken */
+cursor: pointer;
+font-size: 16px;
+transition: background-color 0.3s ease;  /* Weicher Übergang bei Hover */
+margin-top: 10px;
+}
+
+#revealBtn:hover {
+background-color: #218838;  /* Dunkleres Grün beim Hover */
+}
+
+/* Spezifischer Stil für den "Neue Vokabel"-Button */
+#neueVokabelBtn,
+#nextBtn {
+padding: 10px 20px;
+background-color: #17a2b8;  /* Türkis für neue Vokabel */
+color: white;
+border: none;
+border-radius: 5px;  /* Abgerundete Ecken */
+cursor: pointer;
+font-size: 16px;
+transition: background-color 0.3s ease;
+margin-top: 10px;
+}
+
+#neueVokabelBtn:hover,
+#nextBtn:hover {
+background-color: #138496;  /* Dunkleres Türkis beim Hover */
+}
+
+/* Spezifischer Stil für den "Zurück zu dc und cd"-Button */
+#backToDcCd {
+background-color: #6c757d;  /* Neuer Blauton für Zurück zu dc und cd */
+color: white;
+}
+
+#backToDcCd:hover {
+background-color: #5a6268;  /* Dunklerer Blauton beim Hover */
+}
+
+/* Container für die Buttons nebeneinander */
+.button-container {
+display: flex;
+gap: 10px; /* Abstand zwischen den Buttons */
+justify-content: flex-start; /* Ausrichtung am linken Rand */
+margin-top: 10px;
+}
+
+/* Stil für beide Buttons */
+#backToDcCd,
+#backToStartFromQuery {
+padding: 10px 20px;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+font-size: 16px;
+transition: background-color 0.3s ease;
+margin-top: 10px;
+}
+
+/* Stil für alle "Zurück zur Startseite"-Buttons */
+.back-to-start-button {
+padding: 10px 20px;
+background-color: #28a745;  /* Grün für Neue Vokabel und Zurück zur Startseite */
+color: white;
+border: none;
+border-radius: 5px;  /* Abgerundete Ecken */
+cursor: pointer;
+font-size: 16px;
+transition: background-color 0.3s ease;
+margin-top: 10px;
+}
+
+.back-to-start-button:hover {
+background-color: #218838;  /* Dunkleres Grün beim Hover */
+}
+
+
+/* Stil für die "Deutsch-Chinesisch" und "Chinesisch-Deutsch" Buttons */
+#dcBtn, #cdBtn {
+padding: 12px 24px;
+background-color: #8FBC8F;  /* Sanftes, dezentes Grün (Dark Sea Green) */
+color: white;
+border: none;
+border-radius: 8px;  /* Abgerundete Ecken */
+cursor: pointer;
+font-size: 18px;
+transition: background-color 0.3s ease, transform 0.2s ease;
+margin: 10px 5px;
+}
+
+/* Hover-Effekt für die Buttons */
+#dcBtn:hover, #cdBtn:hover {
+background-color: #7CA982;  /* Ein etwas dunkleres Grün beim Hover */
+transform: translateY(-2px);  /* Leichtes Anheben beim Hover */
+}
+
+/* Grundlegendes Menü-Styling */
+.menu {
+background-color: #333;
+overflow: hidden;
+}
+
+/* Links und Dropdown-Buttons im Menü */
+.menu a, .menu .dropbtn {
+float: left;
+display: block;
+color: white;
+text-align: center;
+padding: 14px 20px;
+text-decoration: none;
+}
+
+/* Hover-Effekt für Links und Dropdowns auf großen Bildschirmen */
+.menu a:hover, .dropdown:hover .dropbtn {
+background-color: #ddd;
+color: black;
+}
+
+/* Verstecke den Menü-Toggle und das Hamburger-Icon standardmäßig */
+#menu-toggle, .menu-icon {
+display: none;
+}
+
+/* Dropdown für große Bildschirme */
+.dropdown {
+float: left;
+overflow: hidden;
+}
+
+.dropdown .dropbtn {
+display: block;
+color: white;
+background-color: #333;
+padding: 14px 20px;
+border: none;
+cursor: pointer;
+}
+
+/* Dropdown-Inhalte auf großen Bildschirmen */
+.dropdown-content {
+display: none;
+position: absolute;
+background-color: #f9f9f9;
+box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+z-index: 1;
+}
+
+.dropdown-content a {
+float: none;
+color: black;
+padding: 12px 16px;
+text-decoration: none;
+display: block;
+text-align: left;
+}
+
+.dropdown:hover .dropdown-content {
+display: block;
+}
+
+/* Mobile Version für Bildschirme kleiner als 768px */
+@media screen and (max-width: 768px) {
+/* Zeige das Hamburger-Symbol und verstecke die Menü-Links */
+.menu-icon {
+display: block;
+float: right;
+font-size: 26px;
+color: white;
+padding: 14px 20px;
+cursor: pointer;
+}
+
+/* Menüleiste für große Bildschirme */
+.menu-links {
+display: none;
+justify-content: space-between; /* Verteilt die Menüpunkte gleichmäßig */
+gap: 90px; /* Größerer Abstand zwischen den Menüpunkten */
+padding: 0 50px; /* Innerer Abstand des Menüs */
+}
+
+/* Zeige die Menü-Links, wenn das Hamburger-Menü aktiviert ist */
+#menu-toggle:checked + .menu-icon + .menu-links {
+display: block;
+}
+
+/* Sorge dafür, dass die Menü-Links untereinander dargestellt werden */
+.menu-links a, 
+.menu-links .dropbtn {
+display: block;  /* Block-Darstellung, damit die Links untereinander stehen */
+width: 100%;     /* Die Links nehmen die volle Breite ein */
+padding: 14px;   /* Gleichmäßige Abstände */
+background-color: #333;
+color: white;
+text-align: left;
+border-bottom: 1px solid #ddd;
+}
+
+/* Dropdown-Inhalte ebenfalls untereinander anzeigen */
+.dropdown-content {
+background-color: #444;
+display: none;
+}
+
+/* Zeige Dropdown-Inhalte bei Aktivierung */
+.dropbtn.active + .dropdown-content {
+display: block;
+}
+
+.dropdown-content a {
+display: block;
+padding: 12px;
+background-color: #333;
+color: white;
+}
+}
+.reset-options .cancel, 
+.reset-options .confirm, 
+#saveBtn, 
+#addBtn, 
+#showBtn, 
+#submitBtn, 
+#printCsvBtn, 
+input[type="file"] {
+border-radius: 5px; /* Rundung für alle relevanten Buttons */
+}
