@@ -69,7 +69,6 @@ Durch das Css ist es möglich, die Applikation responsive zu machen: Es wird ´,
 (css Styling für schmale Bildschirme)
 
 ![image](https://github.com/user-attachments/assets/91354708-3034-4a1f-aa5e-b685049dc9c7)
-
 (Aussehen des Menüs bei schmalen Bildschirmen) 
 
 ![image](https://github.com/user-attachments/assets/ad3aed60-0762-4995-b325-d3148666670d)
@@ -101,6 +100,7 @@ Zunächst werden in der Datei sämtliche Variablen und Konstanten, die im Folgen
 Im Anschluss werden Schritt für Schritt einzelne Fuktionen definiert, die ausgeführt werden sollen, sobald auf die Buttons oder Menüpunkte,auf die die Funktionen verlinken, gedrückt werden. 
 #### Beispiele für Implementierung in Java
 Beispielsweise wird die Funktion showWelcomeTedxt() beim ersten Öffnen der Seite und beim Betätigen des "zurück zur Startseite"-Buttons ausgeführt, sodass der Willkommenstext eingeblendet wird. Die Funktion hideWelcomeText wird dagegen ausgeführt, sobald auf ein Menüpunkt geklickt wird, da dann die Buttons, Felder etc. des jeweiligen Menüpunktes gezeigt werden sollen und der Willkommenstext nicht mehr benötigt wird.
+
 ![image](https://github.com/user-attachments/assets/bfd0d022-4e3f-42ac-8312-58c02b3f8ae9)
 
 (definieren der Funktionen in der Javascript-Datei)
