@@ -298,13 +298,7 @@ mode = "cd";  // Modus auf "cd" setzen
 document.getElementById("neueVokabelBtn").addEventListener("click", function () {
 showNewRandomPairAfterComma();  // Neue Funktion aufrufen
 });
-// document.getElementById("nextBtn").addEventListener("click", function () {
-//         // Entferne alle angezeigten Paare
-//         document.querySelectorAll('p').forEach(p => p.remove());
-//         if (mode === "dc") {
-//             showRandomPairAfterComma();  // Nächste Abfrage im dc-Modus
-//         }
-//     });
+
 
 function showNewRandomPairAfterComma() {
 if (csvData.length > 0) {
