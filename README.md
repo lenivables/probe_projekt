@@ -65,9 +65,11 @@ Dadurch, dass jedem Div, Button, Label etc. eine Id zugewiesen wird, wird jede K
 Durch das Css ist es möglich, die Applikation responsive zu machen: Es wird ´, bevor die html-Datei weiter ausgeführt wird, geschaut, wie breit der Bildschirm ist, auf dem die Seite geladen werden soll. Wenn der Bildschirm maximal 768 Pixel in der Breite umfasst, wird das Menü samt seiner Unterpunkte statt eines Balkenmenüs als ein Hamburgermenü dargestellt. Dies bedeutet, dass bei breiten Bildschirmen (breiter als 768 Pixel) die Mneüpunkte nebeneinander angezeigt werden. Bei kleinen Bildschirmen hingegen, werden diese untereinander angezeigt. 
 
 ![image](https://github.com/user-attachments/assets/7dbc6bce-6dd4-4339-831a-514eda5ae9ea)
+
 (css Styling für schmale Bildschirme)
 
 ![image](https://github.com/user-attachments/assets/ad3aed60-0762-4995-b325-d3148666670d)
+
 (css Styling für breite Bildschirme)
 
 
