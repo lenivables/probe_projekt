@@ -66,8 +66,10 @@ Durch das Css ist es möglich, die Applikation responsive zu machen: Es wird ´,
 
 ![image](https://github.com/user-attachments/assets/7dbc6bce-6dd4-4339-831a-514eda5ae9ea)
 (css Styling für schmale Bildschirme)
+
 ![image](https://github.com/user-attachments/assets/ad3aed60-0762-4995-b325-d3148666670d)
 (css Styling für breite Bildschirme)
+
 
 Durch das Styling ist es so möglich, für Buttons, die genau gleich aussehen sollen, nur einmal die gewünschte Optik zu beschreiben, statt dies bei beiden Buttons einzeln zu müssen. So bleibt der Code nicht nur übersichtlicher, sondern auch kürzer. Besonders hilfreich war dieses Vorgehen bei den "zurück zur Startseite"-Buttons, da diese mehrfach vorkommen, aber nur einmal gestyled werden mussten. 
 
