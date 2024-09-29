@@ -87,4 +87,11 @@ Durch das Styling ist es so möglich, für Buttons, die genau gleich aussehen so
 
 (gleiches Aussehen der Buttons beim Aufrufen der html-Datei im Browser)
 ### JavaScript Code
-Hier könnte der JavaScript-Code eingefügt werden.
+Zunächst werden in der Datei sämtliche Variablen und Konstanten, die im Folgenden genutzt und gebraucht werden, gesetzt. 
+![image](https://github.com/user-attachments/assets/9c8b9f47-346a-4169-8355-ff6c52ca76c7)
+
+Im Anschluss werden Schritt für Schritt einzelne Fuktionen definiert, die ausgeführt werden sollen, sobald auf die Buttons oder Menüpunkte,auf die die Funktionen verlinken, gedrückt werden. 
+Beispielsweise wird die Funktion showWelcomeTedxt() beim ersten Öffnen der Seite und beim Betätigen des "zurück zur Startseite"-Buttons ausgeführt, sodass der Willkommenstext eingeblendet wird. Die Funktion hideWelcomeText wird dagegen ausgeführt, sobald auf ein Menüpunkt geklickt wird, da dann die Buttons, Felder etc. des jeweiligen Menüpunktes gezeigt werden sollen und der Willkommenstext nicht mehr benötigt wird.
+![image](https://github.com/user-attachments/assets/bfd0d022-4e3f-42ac-8312-58c02b3f8ae9)
+
+(definieren der Funktionen in der Javascript-Datei)
