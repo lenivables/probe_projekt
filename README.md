@@ -68,9 +68,17 @@ Durch das Css ist es möglich, die Applikation responsive zu machen: Es wird ´,
 
 (css Styling für schmale Bildschirme)
 
+![image](https://github.com/user-attachments/assets/91354708-3034-4a1f-aa5e-b685049dc9c7)
+
+(Aussehen des Menüs bei schmalen Bildschirmen) 
+
 ![image](https://github.com/user-attachments/assets/ad3aed60-0762-4995-b325-d3148666670d)
 
 (css Styling für breite Bildschirme)
+
+![image](https://github.com/user-attachments/assets/d636fdf7-5740-4622-8f77-717a9666751c)
+
+(Aussehen der Menüs bei breiteren Bildschirmen)
 
 
 Durch das Styling ist es so möglich, für Buttons, die genau gleich aussehen sollen, nur einmal die gewünschte Optik zu beschreiben, statt dies bei beiden Buttons einzeln zu müssen. So bleibt der Code nicht nur übersichtlicher, sondern auch kürzer. Besonders hilfreich war dieses Vorgehen bei den "zurück zur Startseite"-Buttons, da diese mehrfach vorkommen, aber nur einmal gestyled werden mussten. 
@@ -91,7 +99,12 @@ Zunächst werden in der Datei sämtliche Variablen und Konstanten, die im Folgen
 ![image](https://github.com/user-attachments/assets/9c8b9f47-346a-4169-8355-ff6c52ca76c7)
 
 Im Anschluss werden Schritt für Schritt einzelne Fuktionen definiert, die ausgeführt werden sollen, sobald auf die Buttons oder Menüpunkte,auf die die Funktionen verlinken, gedrückt werden. 
+#### Beispiele für Implementierung in Java
 Beispielsweise wird die Funktion showWelcomeTedxt() beim ersten Öffnen der Seite und beim Betätigen des "zurück zur Startseite"-Buttons ausgeführt, sodass der Willkommenstext eingeblendet wird. Die Funktion hideWelcomeText wird dagegen ausgeführt, sobald auf ein Menüpunkt geklickt wird, da dann die Buttons, Felder etc. des jeweiligen Menüpunktes gezeigt werden sollen und der Willkommenstext nicht mehr benötigt wird.
 ![image](https://github.com/user-attachments/assets/bfd0d022-4e3f-42ac-8312-58c02b3f8ae9)
 
 (definieren der Funktionen in der Javascript-Datei)
+
+Die Abfrage der Vokabeln erfolgt zufällig: Es wird ein zufälliger Index innerhalb der Länge des Zwischenspeichers ausgewählt. Danach wird das Wertepaar, das sich an diesem Indedx befindet, als Vokabel, die abgefragt werden soll, festgelegt. Der Wert an Indexstelle 1 (also an 2. Stelle) wird als chinesische Vokabel ausgewählt und ausgegeben. (Bzw. bei der "deutsch-chinesisch"-Auswahl wird die deutsche Vokabel zuerst ausgegeben). Durch klicken auf den "Aufdecken"-Button wird die deutsche Übersetzung angezeigt, also der Wert an 0. Indexstelle des zufällig ausgesuchten Wertpaares. Wenn der Zwischenspeicher allerdings leer ist, wird eine Warnung ausgegeben, die den Nutzer informiert, dass der Zwischenspeicher leer ist -also noch gar keine Vokabeln vorhanden sind, die abgefragt werden könnten. 
+
+![image](https://github.com/user-attachments/assets/6516c6ad-8775-4127-a721-19812e00013c)
