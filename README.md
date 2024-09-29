@@ -65,11 +65,10 @@ Dadurch, dass jedem Div, Button, Label etc. eine Id zugewiesen wird, wird jede K
 Durch das Css ist es möglich, die Applikation responsive zu machen: Es wird ´, bevor die html-Datei weiter ausgeführt wird, geschaut, wie breit der Bildschirm ist, auf dem die Seite geladen werden soll. Wenn der Bildschirm maximal 768 Pixel in der Breite umfasst, wird das Menü samt seiner Unterpunkte statt eines Balkenmenüs als ein Hamburgermenü dargestellt. Dies bedeutet, dass bei breiten Bildschirmen (breiter als 768 Pixel) die Mneüpunkte nebeneinander angezeigt werden. Bei kleinen Bildschirmen hingegen, werden diese untereinander angezeigt. 
 
 ![image](https://github.com/user-attachments/assets/7dbc6bce-6dd4-4339-831a-514eda5ae9ea)
-
 (css Styling für schmale Bildschirme)
 ![image](https://github.com/user-attachments/assets/ad3aed60-0762-4995-b325-d3148666670d)
-
 (css Styling für breite Bildschirme)
+
 Durch das Styling ist es so möglich, für Buttons, die genau gleich aussehen sollen, nur einmal die gewünschte Optik zu beschreiben, statt dies bei beiden Buttons einzeln zu müssen. So bleibt der Code nicht nur übersichtlicher, sondern auch kürzer. Besonders hilfreich war dieses Vorgehen bei den "zurück zur Startseite"-Buttons, da diese mehrfach vorkommen, aber nur einmal gestyled werden mussten. 
 
 ![image](https://github.com/user-attachments/assets/b985e5a5-086c-4edf-93a9-f2885a887319)
