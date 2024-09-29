@@ -99,12 +99,28 @@ Zunächst werden in der Datei sämtliche Variablen und Konstanten, die im Folgen
 
 Im Anschluss werden Schritt für Schritt einzelne Fuktionen definiert, die ausgeführt werden sollen, sobald auf die Buttons oder Menüpunkte,auf die die Funktionen verlinken, gedrückt werden. 
 #### Beispiele für Implementierung in Java
+##### Anzeigen des Wilkommenstextes
 Beispielsweise wird die Funktion showWelcomeTedxt() beim ersten Öffnen der Seite und beim Betätigen des "zurück zur Startseite"-Buttons ausgeführt, sodass der Willkommenstext eingeblendet wird. Die Funktion hideWelcomeText wird dagegen ausgeführt, sobald auf ein Menüpunkt geklickt wird, da dann die Buttons, Felder etc. des jeweiligen Menüpunktes gezeigt werden sollen und der Willkommenstext nicht mehr benötigt wird.
 
 ![image](https://github.com/user-attachments/assets/bfd0d022-4e3f-42ac-8312-58c02b3f8ae9)
 
 (definieren der Funktionen in der Javascript-Datei)
 
+##### Abfrage der ersten Vokabel nach Auswählen der Sprachasuwahl
 Die Abfrage der Vokabeln erfolgt zufällig: Es wird ein zufälliger Index innerhalb der Länge des Zwischenspeichers ausgewählt. Danach wird das Wertepaar, das sich an diesem Indedx befindet, als Vokabel, die abgefragt werden soll, festgelegt. Der Wert an Indexstelle 1 (also an 2. Stelle) wird als chinesische Vokabel ausgewählt und ausgegeben. (Bzw. bei der "deutsch-chinesisch"-Auswahl wird die deutsche Vokabel zuerst ausgegeben). Durch klicken auf den "Aufdecken"-Button wird die deutsche Übersetzung angezeigt, also der Wert an 0. Indexstelle des zufällig ausgesuchten Wertpaares. Wenn der Zwischenspeicher allerdings leer ist, wird eine Warnung ausgegeben, die den Nutzer informiert, dass der Zwischenspeicher leer ist -also noch gar keine Vokabeln vorhanden sind, die abgefragt werden könnten. 
 
 ![image](https://github.com/user-attachments/assets/6516c6ad-8775-4127-a721-19812e00013c)
+
+(Funktion, die ausgeführt wird, sobald der Button "chinesisch-deutsch" gedrückt wird)
+
+##### Hochladen einer csv-Datei
+Durch den EventListener des Submit-Buttons können lokal gespeicherte csv-Datein in die Applikation geladen werden. Diese werden in den Zwischenspeicher (in dem sich bereits andere Vokabeln befinden können) geladen und stehen somit zur Abfrage zur Verfügung. So können auch mehrere Dateien hintereinander in den Zwischenspeicher hochgeladen werden, sodass mehrere Vokabel-Sheets gleichzeitig abgefragt werden können. Zudem wird der Inhalt der csv-Datei noch in einen weiteren Zwischenspeicher geladen. In diesem Zwischenspeicher befindet sich stets nur der Inhalt der aktuell eingegebenen Datei, sodass bei Betätigen des Buttons "abgegebene csv-Datei ausgeben" nur der Inhalt der csv-Datei ausgegeben wird und nicht andere Vokabeln, die bereits vor Hochladen der csv-Datei im Zwischenspeicher waren, auch ausgegeben werden. 
+
+![image](https://github.com/user-attachments/assets/5093c953-76d5-46d4-8f89-b1adefda88fc)
+
+Zusätzlich gibt es eine fast gegensätzliche Implementierung in der Javascript-Datei, die den ganzen Inhalt des Zwischenspeichers, in der sich alle Vokabeln und nicht nur die aktuell abgegebene csv-Datei befindet, in eine csv Datei umwandelt und sie für den Nutzer der Applikation zum Herunterladen unter dem Namen "csv_speicher.csv" zur erfügung stellt. Dies geschieht allerdings nur, wenn mindestens eine VOkabel im Zwischenspeicher hinterlegt ist, sodass keine leere csv-Datei heruntergeladen werden kann. So können einzigartige Kombinationen aus Vokabelsheets und manuell eingegebenen Vokabeln lokal gespeichert werden und für künfitge Abfragen weiterhin genutzt werdne, indem sie als VOkabel-Sheets wieder eingegeben werden. 
+
+![image](https://github.com/user-attachments/assets/dbf7c470-9740-43f0-96b3-9a43b4c546f2)
+
+
+
