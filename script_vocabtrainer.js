@@ -329,29 +329,6 @@ alert("Zwischenspeicher ist leer.");  // Wenn keine Daten vorhanden sind
 
 
 
-
-//       // Event Listener für den "Reveal"-Button
-// document.getElementById("revealBtn").addEventListener("click", function () {
-//     if (currentPair) {
-//         if (mode === "dc") {
-//             // Wenn "dc" gedrückt wurde, zeige den Wert nach dem Komma
-//             const valueAfterComma = currentPair[1];
-//             const revealElement = document.createElement("p");
-//             revealElement.innerText = `Die deutsche Vokabel ist: ${valueAfterComma}`;
-//             document.body.appendChild(revealElement);
-//         } else if (mode === "cd") {
-//             // Wenn "cd" gedrückt wurde, zeige den Wert vor dem Komma
-//             const valueBeforeComma = currentPair[0];
-//             const revealElement = document.createElement("p");
-//             revealElement.innerText = `Die chinesische Übersetzung ist: ${valueBeforeComma}`;
-//             document.body.appendChild(revealElement);
-//         }
-
-//         // Verstecke den "Reveal"-Button nach der Enthüllung
-//         document.getElementById("revealBtn").style.display = "none";
-//     }
-// });
-
 // Event Listener für den Aufdecken-Button
 document.getElementById("revealBtn").addEventListener("click", function () {
 if (currentPair) {
