@@ -41,12 +41,30 @@ Der Prototyp hat sich trotzdem als sehr sinnvoll erwiesen, obwohl er auf dem Weg
   - Reset: Es erscheinen die Buttons "abbrechen" und "durchführen". Beim Klicken auf "abbrechen" wird man zurück zur Startseite geleitet, beim Klicken auf "durchführen" wird der gesamte Zwischenspeicher geleert. Hierbei wird keine csv-Datei vom Zwischenspeicher erstellt.
 
 
-## Code
+## Technische Architektur der Applikation
+Die Vokabeltrainer-Applikation ist in drei Bestandteile aufgebaut: Die grundlegende Struktur bietet die html-Datei (index.html), das Design der in der html-Datei festgelegten Struktur wird in der css-Datei (designsheet.css) festgelegt. Die Logik, die bei Betätigen der Menüpunkte und Buttons, die in der html-Datei erstellt wurden, ausgeführt wird, ist in einer javascript-Datei (script_vocabtrainer.js) untergebracht.
 ### HTML Code
-Hier könnte der HTML-Code eingefügt werden.
-
+Zunächst wird im Head-Teil der html-Datei festgelegt, dass die Datei in deutscher Sprache und dem im WWW gängigen "UFT-8" zu verstehen sind. Hier wird auch auf das stylesheet -also die css-Datei- verlinkt, sodass das Styling ausgelagert in der css-Datei liegt, wodurch die html-Datei übersichtlicher wird.
+![image](https://github.com/user-attachments/assets/b40b4fa7-9103-4fd6-8e84-605bdb674481)
+Im auf den head-Teil folgenden body-Teil der html-Datei werden drei grosse Div's erstellt: Einen für das Menü, einen für das Info-Modal und einen für alle restlichen Buttons, Textfelder und Labels,die im Laufe der Nutzung der Applikation gezeigt und genutzt werden.
+![image](https://github.com/user-attachments/assets/50a6e1cf-9b97-4253-a05b-aaf4cffb423e)
+Im ersten Div, das für das Menü zuständig ist, sind einzelne weitere Div's, die das Menü inklusive der beiden Menüunterpunkte, die, wenn man auf "neue Vokabel" klickt, erscheinen. 
+![image](https://github.com/user-attachments/assets/ce3f1d74-d3dd-4103-b233-93db284ad389)
+Auch im Info-Modal wird der Text, der angezeigt wird, sobald man auf das Info-Modal anklickt, in einem weiteren Div gepackt. Hier wird auf das Repository, in dem die Dateien inklusive readme.md liegt, sodass bei Fragen der Code und das readme.md gelesen und analysiert werden kann.  
+![image](https://github.com/user-attachments/assets/0a247271-0a7a-4b61-b3c1-85cd5de41534)
+Dadurch, dass jedem Div, Button, Label etc. eine Id zugewiesen wird, wird jede Komponente individuell entsprechend des css gestyled. Dadurch sieht nicht alles gleich aus, sondern einzelne Buttons haben verschiedene Farben, Größen und Grade der Abrundung ihrer Ecken. 
 ### CSS Code
-Hier könnte der CSS-Code eingefügt werden.
-
+Durch das Css ist es möglich, die Applikation responsive zu machen: Es wird ´, bevor die html-Datei weiter ausgeführt wird, geschaut, wie breit der Bildschirm ist, auf dem die Seite geladen werden soll. Wenn der Bildschirm maximal 768 Pixel in der Breite umfasst, wird das Menü samt seiner Unterpunkte statt eines Balkenmenüs als ein Hamburgermenü dargestellt. Dies bedeutet, dass bei breiten Bildschirmen (breiter als 768 Pixel) die Mneüpunkte nebeneinander angezeigt werden. Bei kleinen Bildschirmen hingegen, werden diese untereinander angezeigt. 
+![image](https://github.com/user-attachments/assets/7dbc6bce-6dd4-4339-831a-514eda5ae9ea)
+(css Styling für schmale Bildschirme)
+![image](https://github.com/user-attachments/assets/ad3aed60-0762-4995-b325-d3148666670d)
+(css Styling für breite Bildschirme)
+Durch das Styling ist es so möglich, für Buttons, die genau gleich aussehen sollen, nur einmal die gewünschte Optik zu beschreiben, statt dies bei beiden Buttons einzeln zu müssen. So bleibt der Code nicht nur übersichtlicher, sondern auch kürzer. Besonders hilfreich war dieses Vorgehen bei den "zurück zur Startseite"-Buttons, da diese mehrfach vorkommen, aber nur einmal gestyled werden mussten. 
+![image](https://github.com/user-attachments/assets/b985e5a5-086c-4edf-93a9-f2885a887319)
+(css der Buttons "deutsch-chinesisch" und "chinesisch-deutsch")
+![image](https://github.com/user-attachments/assets/b253d02f-1d28-410b-98a5-0c244225e21a)
+(Verweis im html-Dokument auf das css Styling für die Buttons über die ID "dcBtn" bzw. "cdBtn")
+![image](https://github.com/user-attachments/assets/51e9c190-9eac-46a5-ae78-4a50c885456f)
+(gleiches Aussehen der Buttons beim Aufrufen der html-Datei im Browser)
 ### JavaScript Code
 Hier könnte der JavaScript-Code eingefügt werden.
